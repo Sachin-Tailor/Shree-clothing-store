@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shree | Modern Traditional Elegance</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        shree: {
+                            light: '#8D6E63', // Soft brown
+                            DEFAULT: '#5D4037', // Primary rich brown
+                            dark: '#3E2723', // Deep brown for text/footer
+                            bg: '#FAF8F5', // Warm off-white
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Shree Text Animation */
+        .shree-animate span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textReveal 0.8s ease-out forwards;
+        }
+        
+        .shree-animate span:nth-child(1) { animation-delay: 0.1s; }
+        .shree-animate span:nth-child(2) { animation-delay: 0.2s; }
+        .shree-animate span:nth-child(3) { animation-delay: 0.3s; }
+        .shree-animate span:nth-child(4) { animation-delay: 0.4s; }
+        .shree-animate span:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8D6E63;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5D4037;
+        }
+    </style>
+</head>
+<body class="bg-shree-bg text-gray-800 font-sans antialiased overflow-x-hidden">
+
+    <!-- HEADER -->
+    <header id="header" class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-shree-light/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button type="button" class="text-shree-dark hover:text-shree transition">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center justify-center flex-1 md:flex-none">
+                    <a href="#" class="font-serif text-3xl font-bold tracking-widest text-shree-dark hover:text-shree transition duration-300">
+                        SHREE
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8 lg:space-x-12">
+                    <a href="#home" class="text-sm uppercase tracking-wider text-shree-dark hover:text-shree font-medium transition duration-300 relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-shree transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#collections" class="text-sm uppercase tracking-wider text-gray-500 hover:text-shree font-medium transition duration-300 relative group">
+                        Collections
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-shree transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#about" class="text-sm uppercase tracking-wider text-gray-500 hover:text-shree font-medium transition duration-300 relative group">
+                        About Us
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-shree transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </nav>
+
+                <!-- Icons -->
+                <div class="flex items-center space-x-5 text-shree-dark">
+                    <button class="hover:text-shree transition duration-300 transform hover:scale-110">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+                    <button class="hover:text-shree transition duration-300 transform hover:scale-110">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </button>
+                    <button class="hover:text-shree transition duration-300 transform hover:scale-110 relative">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        <span class="absolute -top-1.5 -right-1.5 bg-shree text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">2</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 w-full h-full">
+            <div class="absolute inset-0 bg-gradient-to-b from-shree-bg/50 to-shree-bg z-10"></div>
+            <img src="https://images.unsplash.com/photo-1583391733958-6c682531fda6?q=80&w=2074&auto=format&fit=crop" alt="Traditional Elegance" class="w-full h-full object-cover object-center opacity-40">
+        </div>
+
+        <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
+            <p class="text-sm md:text-base uppercase tracking-[0.3em] text-shree font-semibold mb-4 animate-fade-in-up" style="animation-delay: 0.2s;">Welcome to</p>
+            
+            <!-- Animated Brand Name -->
+            <h1 class="shree-animate font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-shree-dark mb-6 tracking-tight drop-shadow-sm">
+                <span>S</span><span>H</span><span>R</span><span>E</span><span>E</span>
+            </h1>
+            
+            <p class="text-lg md:text-2xl text-gray-700 font-light mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay: 0.8s;">
+                Where timeless tradition seamlessly weaves into modern elegance. Discover our curated collection of artisanal masterpieces.
+            </p>
+            <div class="animate-fade-in-up" style="animation-delay: 1s;">
+                <a href="#collections" class="inline-flex items-center px-8 py-4 bg-shree-dark text-white font-medium tracking-wider uppercase text-sm hover:bg-shree transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Explore Collection
+                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES (Modern Grid) -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-3xl md:text-4xl text-shree-dark font-bold mb-4">Curated For You</h2>
+                <div class="w-16 h-1 bg-shree mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Category 1 -->
+                <div class="group relative h-96 overflow-hidden reveal bg-shree-bg" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=1974&auto=format&fit=crop" alt="Ethnic Wear" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-2xl text-white mb-2">Ethnic Wear</h3>
+                        <p class="text-white/80 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Handcrafted elegance for modern occasions.</p>
+                        <a href="#" class="text-white text-sm uppercase tracking-wider font-medium border-b border-white pb-1 inline-block hover:text-shree-light hover:border-shree-light transition">Shop Now</a>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="group relative h-96 overflow-hidden reveal bg-shree-bg" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=1974&auto=format&fit=crop" alt="Bridal Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-2xl text-white mb-2">Bridal Collection</h3>
+                        <p class="text-white/80 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Timeless elegance for your special day.</p>
+                        <a href="#" class="text-white text-sm uppercase tracking-wider font-medium border-b border-white pb-1 inline-block hover:text-shree-light hover:border-shree-light transition">Shop Now</a>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="group relative h-96 overflow-hidden reveal bg-shree-bg" style="transition-delay: 0.3s;">
+                    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2064&auto=format&fit=crop" alt="Festive Wear" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-2xl text-white mb-2">Festive Wear</h3>
+                        <p class="text-white/80 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Vibrant colors and intricate craftsmanship.</p>
+                        <a href="#" class="text-white text-sm uppercase tracking-wider font-medium border-b border-white pb-1 inline-block hover:text-shree-light hover:border-shree-light transition">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW ARRIVALS (Modern E-commerce layout) -->
+    <section id="collections" class="py-20 bg-shree-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-12 reveal">
+                <div>
+                    <h2 class="font-serif text-3xl md:text-4xl text-shree-dark font-bold mb-2">New Arrivals</h2>
+                    <p class="text-gray-600">The latest blend of contemporary and classic.</p>
+                </div>
+                <a href="#" class="hidden md:inline-flex items-center text-shree-dark font-medium hover:text-shree transition">
+                    View All <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="group reveal cursor-pointer">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?q=80&w=800&auto=format&fit=crop" alt="Terracotta Silk Saree" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <!-- Modern Add to Cart Overlay -->
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Handwoven</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Terracotta Silk Saree</h3>
+                        <p class="text-gray-900 font-medium">$145.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="group reveal cursor-pointer" style="transition-delay: 0.1s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=800&auto=format&fit=crop" alt="Zari Work Lehenga" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Handcrafted</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Zari Work Lehenga</h3>
+                        <p class="text-gray-900 font-medium">$299.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="group reveal cursor-pointer" style="transition-delay: 0.2s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1589465885857-44edb59bbff2?q=80&w=800&auto=format&fit=crop" alt="Banarasi Silk Dupatta" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Pure Silk</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Banarasi Silk Dupatta</h3>
+                        <p class="text-gray-900 font-medium">$85.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="group reveal cursor-pointer" style="transition-delay: 0.3s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1619086303291-0ef7699e4b31?q=80&w=800&auto=format&fit=crop" alt="Embroidered Linen Tunic" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-shree text-white text-xs px-2 py-1 uppercase tracking-wide">Bestseller</span>
+                        </div>
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Premium</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Embroidered Linen Tunic</h3>
+                        <p class="text-gray-900 font-medium">$110.00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10 text-center md:hidden">
+                <a href="#" class="inline-flex items-center border border-shree-dark text-shree-dark px-6 py-3 font-medium hover:bg-shree-dark hover:text-white transition">
+                    View All Collections
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRAND STORY (Split Layout) -->
+    <section id="about" class="py-0 bg-white">
+        <div class="flex flex-col lg:flex-row min-h-[600px]">
+            <div class="lg:w-1/2 relative bg-shree-dark min-h-[400px] lg:min-h-full">
+                <img src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?q=80&w=2074&auto=format&fit=crop" alt="Craftsmanship" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay">
+            </div>
+            <div class="lg:w-1/2 flex items-center justify-center p-10 lg:p-20 bg-white reveal">
+                <div class="max-w-lg">
+                    <span class="text-shree uppercase tracking-widest text-sm font-semibold mb-4 block">Our Story</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-shree-dark font-bold mb-6 leading-tight">Rooted in Tradition.<br>Designed for Today.</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        At <strong class="font-serif text-shree-dark font-semibold">Shree</strong>, we believe that true elegance never goes out of style. We partner with master artisans across the country to bring you pieces that honor centuries-old techniques, while featuring clean, modern aesthetics suitable for contemporary life.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        Every thread, every carving, and every brushstroke tells a story of heritage, reimagined through a modern lens in our earthy palette of whites and browns.
+                    </p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Signature_Placeholder.png" alt="Founder Signature" class="h-12 opacity-40 mix-blend-multiply filter contrast-200" style="filter: sepia(1) hue-rotate(330deg) saturate(2) brightness(0.5);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES / USP -->
+    <section class="py-16 bg-shree-bg border-t border-b border-shree-light/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-shree-light/30">
+                <div class="p-4 reveal">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="truck" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Free Shipping</h4>
+                    <p class="text-sm text-gray-500">On all orders over $150</p>
+                </div>
+                <div class="p-4 reveal" style="transition-delay: 0.1s;">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Secure Payment</h4>
+                    <p class="text-sm text-gray-500">100% secure checkout</p>
+                </div>
+                <div class="p-4 reveal" style="transition-delay: 0.2s;">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="gem" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Artisan Crafted</h4>
+                    <p class="text-sm text-gray-500">Premium quality guaranteed</p>
+                </div>
+                <div class="p-4 reveal" style="transition-delay: 0.3s;">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Easy Returns</h4>
+                    <p class="text-sm text-gray-500">30-day return policy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (Specially designed traditional & modern blend) -->
+    <footer class="bg-shree-dark text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Info -->
+                <div class="lg:col-span-1">
+                    <h3 class="font-serif text-3xl font-bold tracking-widest text-white mb-6">SHREE</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                        Curating the finest blend of traditional Indian craftsmanship and modern minimalist design aesthetics.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-300 hover:bg-white hover:text-shree-dark hover:border-white transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-300 hover:bg-white hover:text-shree-dark hover:border-white transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-serif text-lg mb-6 border-b border-gray-700 pb-2 inline-block">Explore</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">New Arrivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Ethnic Wear</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Artisan Jewelry</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Home Decor</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Gifts</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care -->
+                <div>
+                    <h4 class="font-serif text-lg mb-6 border-b border-gray-700 pb-2 inline-block">Assistance</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Shipping & Returns</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Size Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-serif text-lg mb-6 border-b border-gray-700 pb-2 inline-block">Join the Inner Circle</h4>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe for exclusive updates, new arrivals, and insider-only discounts.</p>
+                    <form class="flex flex-col space-y-3">
+                        <input type="email" placeholder="Your email address" class="bg-transparent border border-gray-600 px-4 py-3 text-sm text-white focus:outline-none focus:border-white transition">
+                        <button type="submit" class="bg-white text-shree-dark px-4 py-3 text-sm font-semibold uppercase tracking-wider hover:bg-gray-200 transition">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright line -->
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Shree. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subtle background pattern/texture for footer -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md');
+                header.classList.replace('bg-white/90', 'bg-white');
+            } else {
+                header.classList.remove('shadow-md');
+                header.classList.replace('bg-white', 'bg-white/90');
+            }
+        });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((elem) => {
+            observer.observe(elem);
+        });
+    </script>
+</body>
+</html>

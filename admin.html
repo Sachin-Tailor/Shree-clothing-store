@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shree Admin Dashboard | Protected Order Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'shree': '#8D3A3A',
+                        'shree-dark': '#3E2723',
+                        'shree-bg': '#FAF8F5'
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-shree-bg text-gray-800 font-sans min-h-screen">
+
+    <!-- =====================================================
+         1. ADMIN LOGIN SECURITY SCREEN (AUTHENTICATION GUARD)
+         ===================================================== -->
+    <div id="admin-auth-screen" class="fixed inset-0 bg-shree-dark/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl border border-amber-950/20 max-w-md w-full p-8 relative overflow-hidden">
+            <!-- Decorative Header Accent -->
+            <div class="h-2 bg-gradient-to-r from-shree via-amber-600 to-shree-dark absolute top-0 left-0 right-0"></div>
+
+            <div class="text-center mb-8 pt-2">
+                <div class="w-14 h-14 bg-shree-bg rounded-full flex items-center justify-center mx-auto mb-4 border border-shree/20 text-shree">
+                    <i data-lucide="shield-lock" class="w-7 h-7"></i>
+                </div>
+                <h2 class="font-serif text-2xl font-bold tracking-widest text-shree-dark">SHREE ADMIN PORTAL</h2>
+                <p class="text-xs text-gray-400 mt-1 uppercase tracking-wider font-semibold">Restricted Privacy Access</p>
+            </div>
+
+            <!-- Login Form -->
+            <form onsubmit="handleAdminLogin(event)" class="space-y-5">
+                <div id="auth-error-msg" class="hidden bg-rose-50 border border-rose-200 text-rose-700 text-xs px-3.5 py-2.5 rounded font-medium text-center">
+                    Incorrect Admin ID or Password. Please try again.
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider font-semibold text-gray-600 mb-1.5">Admin ID / Email</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <i data-lucide="user-check" class="w-4 h-4"></i>
+                        </span>
+                        <input id="admin-auth-user" type="text" placeholder="admin@shree.com" required class="w-full bg-gray-50 border border-gray-200 pl-9 pr-3 py-2.5 text-sm rounded focus:bg-white focus:outline-none focus:border-shree transition">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider font-semibold text-gray-600 mb-1.5">Admin Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <i data-lucide="key-round" class="w-4 h-4"></i>
+                        </span>
+                        <input id="admin-auth-pass" type="password" placeholder="••••••••" required class="w-full bg-gray-50 border border-gray-200 pl-9 pr-3 py-2.5 text-sm rounded focus:bg-white focus:outline-none focus:border-shree transition">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input id="admin-remember-me" type="checkbox" class="rounded border-gray-300 text-shree focus:ring-shree">
+                        <span>Remember this device</span>
+                    </label>
+                    <span class="text-gray-400 italic">256-bit encrypted</span>
+                </div>
+
+                <button type="submit" class="w-full bg-shree-dark text-white py-3.5 rounded font-semibold uppercase tracking-widest text-xs hover:bg-shree transition flex items-center justify-center gap-2 shadow-md">
+                    <i data-lucide="lock-keyhole-open" class="w-4 h-4"></i> Unlock Admin Dashboard
+                </button>
+            </form>
+
+            <!-- Default Credentials Note -->
+            <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+                <div class="inline-block bg-amber-50 border border-amber-200 text-amber-900 text-[11px] px-3 py-1.5 rounded font-mono">
+                    🔑 <strong>Default Login:</strong> User: <code class="font-bold">admin</code> | Pass: <code class="font-bold">admin123</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         2. PROTECTED ADMIN DASHBOARD CONTENT VIEW
+         ===================================================== -->
+    <div id="admin-dashboard-view" class="hidden">
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="font-serif text-2xl font-bold tracking-widest text-shree-dark">SHREE</span>
+                    <span class="bg-shree-dark text-white text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded flex items-center gap-1">
+                        <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i> Store Admin
+                    </span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="/" class="text-xs font-semibold text-shree uppercase tracking-wider hover:underline flex items-center gap-1">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Visit Website
+                    </a>
+                    <button onclick="fetchOrders(true)" class="bg-shree-bg text-shree-dark border border-gray-200 px-3 py-1.5 rounded text-xs font-semibold hover:bg-gray-100 transition flex items-center gap-1.5 active:scale-95">
+                        <i id="refresh-icon" data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Orders
+                    </button>
+                    <button onclick="handleAdminLogout()" class="bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1.5 rounded text-xs font-semibold hover:bg-rose-100 transition flex items-center gap-1.5">
+                        <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Lock Portal
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Page Title & Overview Stats -->
+            <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h1 class="font-serif text-3xl text-shree-dark font-bold">Customer Orders & Management</h1>
+                    <p class="text-xs text-gray-500 mt-1">Real-time database records of all customer orders placed on Shree store.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input id="admin-search-input" type="text" placeholder="Search Order ID, Name, Phone..." oninput="filterAdminOrders()" class="bg-white border border-gray-200 text-xs px-3 py-2 rounded w-64 focus:outline-none focus:border-shree">
+                </div>
+            </div>
+
+            <!-- STAT CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-1">Total Orders</p>
+                        <h3 id="stat-total-orders" class="font-serif text-3xl text-shree-dark font-bold">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-shree-bg rounded-full flex items-center justify-center text-shree">
+                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-1">Total Revenue</p>
+                        <h3 id="stat-total-revenue" class="font-serif text-3xl text-emerald-700 font-bold">$0.00</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600">
+                        <i data-lucide="dollar-sign" class="w-6 h-6"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-1">COD Pending</p>
+                        <h3 id="stat-cod-orders" class="font-serif text-3xl text-amber-700 font-bold">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-amber-50 rounded-full flex items-center justify-center text-amber-600">
+                        <i data-lucide="truck" class="w-6 h-6"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORDERS TABLE -->
+            <div class="bg-white rounded border border-gray-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <h2 class="font-serif text-lg font-bold text-shree-dark flex items-center gap-2">
+                        <i data-lucide="package" class="w-5 h-5 text-shree"></i> Live Orders List
+                    </h2>
+                    <span id="order-count-badge" class="text-xs font-mono bg-shree-bg text-shree-dark px-2.5 py-1 rounded font-semibold">0 Orders</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-gray-100/70 text-gray-500 uppercase tracking-wider border-b border-gray-200 font-semibold">
+                                <th class="py-3.5 px-4">Order ID & Date</th>
+                                <th class="py-3.5 px-4">Customer Details</th>
+                                <th class="py-3.5 px-4">Items Ordered</th>
+                                <th class="py-3.5 px-4">Total Amount</th>
+                                <th class="py-3.5 px-4">Payment</th>
+                                <th class="py-3.5 px-4">Status</th>
+                                <th class="py-3.5 px-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body" class="divide-y divide-gray-100">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="no-orders-msg" class="text-center py-16 px-4">
+                    <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-400">
+                        <i data-lucide="inbox" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-lg text-shree-dark font-semibold mb-1">No Orders Recorded Yet</h3>
+                    <p class="text-xs text-gray-400 max-w-sm mx-auto">When customers place orders on your website, they will automatically appear here in real-time!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let allOrders = [];
+
+        // Admin Security Credentials
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            email: 'admin@shree.com',
+            password: 'admin123'
+        };
+
+        function checkAdminAuth() {
+            const isAuth = sessionStorage.getItem('shree_admin_token') === 'authenticated' ||
+                           localStorage.getItem('shree_admin_token') === 'authenticated';
+            
+            const authScreen = document.getElementById('admin-auth-screen');
+            const dashView = document.getElementById('admin-dashboard-view');
+
+            if (isAuth) {
+                authScreen.classList.add('hidden');
+                dashView.classList.remove('hidden');
+                fetchOrders();
+            } else {
+                authScreen.classList.remove('hidden');
+                dashView.classList.add('hidden');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const userInput = document.getElementById('admin-auth-user').value.trim().toLowerCase();
+            const passInput = document.getElementById('admin-auth-pass').value;
+            const rememberMe = document.getElementById('admin-remember-me').checked;
+            const errorMsg = document.getElementById('auth-error-msg');
+
+            const isValidUser = (userInput === ADMIN_CREDENTIALS.username || userInput === ADMIN_CREDENTIALS.email);
+            const isValidPass = (passInput === ADMIN_CREDENTIALS.password);
+
+            if (isValidUser && isValidPass) {
+                errorMsg.classList.add('hidden');
+                if (rememberMe) {
+                    localStorage.setItem('shree_admin_token', 'authenticated');
+                } else {
+                    sessionStorage.setItem('shree_admin_token', 'authenticated');
+                }
+                showAdminToast('Welcome Admin! Portal Unlocked');
+                checkAdminAuth();
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function handleAdminLogout() {
+            sessionStorage.removeItem('shree_admin_token');
+            localStorage.removeItem('shree_admin_token');
+            showAdminToast('Admin Portal Locked');
+            checkAdminAuth();
+        }
+
+        function showAdminToast(msg) {
+            let toast = document.getElementById('admin-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'admin-toast';
+                toast.className = 'fixed bottom-6 right-6 bg-shree-dark text-white text-xs px-4 py-2.5 rounded shadow-lg z-50 transition-all duration-300 transform translate-y-10 opacity-0 font-medium flex items-center gap-2';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> ' + msg;
+            if (window.lucide) lucide.createIcons();
+            toast.classList.remove('translate-y-10', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+            }, 3000);
+        }
+
+        async function fetchOrders(isManual = false) {
+            const btnIcon = document.getElementById('refresh-icon');
+            if (btnIcon) btnIcon.classList.add('animate-spin');
+
+            let apiOrders = [];
+            let localOrders = [];
+            try {
+                localOrders = JSON.parse(localStorage.getItem('shree_database_orders') || '[]');
+            } catch(e) {}
+
+            try {
+                const res = await fetch('/api/orders');
+                if (res.ok) {
+                    const data = await res.json();
+                    apiOrders = data.orders || [];
+                }
+            } catch (e) {}
+
+            // Merge API and LocalStorage orders by orderId
+            const mergedMap = new Map();
+            localOrders.forEach(o => { if (o && o.orderId) mergedMap.set(o.orderId, o); });
+            apiOrders.forEach(o => { if (o && o.orderId) mergedMap.set(o.orderId, o); });
+
+            allOrders = Array.from(mergedMap.values());
+            // Sort by date newest first
+            allOrders.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+            renderOrders(allOrders);
+
+            setTimeout(() => {
+                const currentIcon = document.getElementById('refresh-icon');
+                if (currentIcon) currentIcon.classList.remove('animate-spin');
+            }, 500);
+
+            if (isManual) {
+                showAdminToast(`Orders refreshed (${allOrders.length} total)`);
+            }
+        }
+
+        function renderOrders(orders) {
+            const tbody = document.getElementById('orders-table-body');
+            const noOrdersMsg = document.getElementById('no-orders-msg');
+            const badge = document.getElementById('order-count-badge');
+            tbody.innerHTML = '';
+
+            badge.textContent = orders.length + ' Order' + (orders.length === 1 ? '' : 's');
+
+            if (orders.length === 0) {
+                noOrdersMsg.classList.remove('hidden');
+                updateStats(0, 0, 0);
+                return;
+            }
+
+            noOrdersMsg.classList.add('hidden');
+
+            let totalRev = 0;
+            let codCount = 0;
+
+            orders.forEach(order => {
+                totalRev += (parseFloat(order.total) || 0);
+                if ((order.paymentMethod || '').toLowerCase() === 'cod') codCount++;
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50/80 transition';
+
+                const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recently';
+
+                const itemsSummary = (order.items || []).map(item => `<div class="truncate max-w-[220px]">&bull; <strong>${item.name}</strong> x${item.qty} ($${(item.price * item.qty).toFixed(2)})</div>`).join('');
+
+                const statusColor = order.status === 'Delivered' ? 'bg-emerald-100 text-emerald-800' :
+                                    order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' :
+                                    'bg-amber-100 text-amber-800';
+
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 font-mono">
+                        <span class="font-bold text-shree-dark">${order.orderId || 'N/A'}</span>
+                        <div class="text-[10px] text-gray-400 font-sans mt-0.5">${dateStr}</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <div class="font-semibold text-shree-dark">${order.name || 'Customer'}</div>
+                        <div class="text-[11px] text-gray-500">📞 ${order.phone || 'N/A'}</div>
+                        <div class="text-[10px] text-gray-400 truncate max-w-[180px]" title="${order.address}, ${order.city}, ${order.state}">${order.city || ''}, ${order.state || ''} (${order.pin || ''})</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-gray-700">
+                        ${itemsSummary || '<span class="text-gray-400">1 Item</span>'}
+                    </td>
+                    <td class="py-3.5 px-4 font-serif font-bold text-shree-dark text-sm">
+                        $${(parseFloat(order.total) || 0).toFixed(2)}
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Online'}</span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <span class="${statusColor} px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">${order.status || 'Confirmed'}</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                        <select onchange="updateOrderStatus('${order.orderId}', this.value)" class="text-[10px] bg-white border border-gray-200 rounded px-1.5 py-1 focus:outline-none">
+                            <option value="Confirmed" ${order.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                            <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateStats(orders.length, totalRev, codCount);
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function updateStats(totalOrders, revenue, codCount) {
+            document.getElementById('stat-total-orders').textContent = totalOrders;
+            document.getElementById('stat-total-revenue').textContent = '$' + revenue.toFixed(2);
+            document.getElementById('stat-cod-orders').textContent = codCount;
+        }
+
+        function filterAdminOrders() {
+            const query = (document.getElementById('admin-search-input').value || '').toLowerCase().trim();
+            if (!query) {
+                renderOrders(allOrders);
+                return;
+            }
+            const filtered = allOrders.filter(o =>
+                (o.orderId || '').toLowerCase().includes(query) ||
+                (o.name || '').toLowerCase().includes(query) ||
+                (o.phone || '').toLowerCase().includes(query) ||
+                (o.city || '').toLowerCase().includes(query)
+            );
+            renderOrders(filtered);
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                let localOrders = JSON.parse(localStorage.getItem('shree_database_orders') || '[]');
+                const target = localOrders.find(o => o.orderId === orderId);
+                if (target) {
+                    target.status = newStatus;
+                    localStorage.setItem('shree_database_orders', JSON.stringify(localOrders));
+                }
+            } catch(e) {}
+
+            try {
+                await fetch('/api/orders/' + orderId + '/status', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+            } catch (e) {}
+
+            fetchOrders();
+        }
+
+        // Initialize Admin Auth Guard Check on Load
+        checkAdminAuth();
+        setInterval(() => {
+            if (sessionStorage.getItem('shree_admin_token') === 'authenticated' || localStorage.getItem('shree_admin_token') === 'authenticated') {
+                fetchOrders();
+            }
+        }, 10000); // Auto refresh every 10 sec if authenticated
+    </script>
+</body>
+</html>

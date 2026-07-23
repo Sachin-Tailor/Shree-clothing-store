@@ -1,0 +1,2742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shree | Modern Traditional Elegance</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        shree: {
+                            light: '#8D6E63', // Soft brown
+                            DEFAULT: '#5D4037', // Primary rich brown
+                            dark: '#3E2723', // Deep brown for text/footer
+                            bg: '#FAF8F5', // Warm off-white
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Shree Text Animation */
+        .shree-animate span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textReveal 0.8s ease-out forwards;
+        }
+        
+        .shree-animate span:nth-child(1) { animation-delay: 0.1s; }
+        .shree-animate span:nth-child(2) { animation-delay: 0.2s; }
+        .shree-animate span:nth-child(3) { animation-delay: 0.3s; }
+        .shree-animate span:nth-child(4) { animation-delay: 0.4s; }
+        .shree-animate span:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8D6E63;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5D4037;
+        }
+
+        /* Cart & Overlay Styles */
+        .cart-sidebar {
+            position: fixed;
+            top: 0; right: -420px;
+            width: 420px;
+            height: 100%;
+            background: #fff;
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -8px 0 30px rgba(0,0,0,0.15);
+        }
+        .cart-sidebar.open { right: 0; }
+        @media (max-width: 480px) {
+            .cart-sidebar { width: 100%; right: -100%; }
+            .cart-sidebar.open { right: 0; }
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 20, 10, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 900;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .checkout-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .checkout-modal.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .checkout-modal .modal-box {
+            background: #fff;
+            border-radius: 2px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+
+        .order-confirm-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .order-confirm-modal.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Wishlist active state */
+        .btn-wishlist.wished {
+            color: #e11d48;
+        }
+        .btn-wishlist.wished i {
+            fill: #e11d48;
+        }
+
+        /* Payment method selector */
+        .pay-option {
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pay-option.selected {
+            border-color: #5D4037;
+            background: #FAF8F5;
+        }
+
+        /* Spin animation for success */
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop-in { animation: popIn 0.5s ease-out forwards; }
+
+        /* Search Bar Overlay */
+        .search-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1050;
+            background: rgba(250,248,245,0.98);
+            backdrop-filter: blur(12px);
+            padding: 24px 24px 20px;
+            transform: translateY(-100%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+            border-bottom: 1px solid #D7C4B8;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        .search-overlay.open { transform: translateY(0); }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background 0.15s;
+        }
+        .search-result-item:hover { background: #FAF8F5; }
+
+        /* Wishlist Sidebar (same style as cart) */
+        .wishlist-sidebar {
+            position: fixed;
+            top: 0; right: -420px;
+            width: 420px;
+            height: 100%;
+            background: #fff;
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -8px 0 30px rgba(0,0,0,0.15);
+        }
+        .wishlist-sidebar.open { right: 0; }
+        @media (max-width: 480px) {
+            .wishlist-sidebar { width: 100%; right: -100%; }
+            .wishlist-sidebar.open { right: 0; }
+        }
+
+        /* Profile Modal */
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .profile-modal.open { opacity: 1; pointer-events: all; }
+        .profile-modal .modal-box {
+            background: #fff;
+            border-radius: 2px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        /* Product Quick-View Modal */
+        .product-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .product-modal.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .product-modal .pm-box {
+            background: #fff;
+            width: 100%;
+            max-width: 860px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        @media (min-width: 640px) {
+            .product-modal .pm-box {
+                flex-direction: row;
+                max-height: 88vh;
+                overflow-y: visible;
+            }
+            .product-modal .pm-img-col {
+                width: 45%;
+                flex-shrink: 0;
+            }
+            .product-modal .pm-info-col {
+                flex: 1;
+                overflow-y: auto;
+                max-height: 88vh;
+            }
+        }
+        .product-modal .pm-img-col {
+            background: #FAF8F5;
+            overflow: hidden;
+        }
+        .product-modal .pm-img-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            min-height: 300px;
+            transition: transform 0.6s ease;
+        }
+        .product-modal .pm-img-col:hover img {
+            transform: scale(1.04);
+        }
+        /* Size selector chips */
+        .size-chip {
+            border: 1.5px solid #D7C4B8;
+            padding: 6px 14px;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s;
+            text-transform: uppercase;
+        }
+        .size-chip:hover, .size-chip.active {
+            border-color: #3E2723;
+            background: #3E2723;
+            color: #fff;
+        }
+
+        /* Left Filter Sidebar Styles */
+        .filter-accordion-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #3E2723;
+            border-top: 1px solid rgba(141, 110, 99, 0.15);
+            background: transparent;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .filter-accordion-btn:hover { color: #8D3A3A; }
+
+        .filter-color-dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+        .filter-color-dot:hover { transform: scale(1.15); }
+        .filter-color-dot.selected {
+            border-color: #3E2723;
+            transform: scale(1.2);
+            box-shadow: 0 2px 8px rgba(62,39,35,0.3);
+        }
+        .filter-color-dot.selected::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+        }
+        .filter-color-dot[data-color="yellow"].selected::after {
+            color: #3E2723;
+            text-shadow: none;
+        }
+
+        /* Range Slider Styling */
+        input[type="range"].shree-range {
+            accent-color: #5D4037;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-shree-bg text-gray-800 font-sans antialiased overflow-x-hidden">
+
+    <!-- HEADER -->
+    <header id="header" class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-shree-light/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button type="button" class="text-shree-dark hover:text-shree transition">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center justify-center flex-1 md:flex-none">
+                    <a href="#" class="font-serif text-3xl font-bold tracking-widest text-shree-dark hover:text-shree transition duration-300">
+                        SHREE
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8 lg:space-x-12">
+                    <a href="#home" class="text-sm uppercase tracking-wider text-shree-dark hover:text-shree font-medium transition duration-300 relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-shree transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#collections" class="text-sm uppercase tracking-wider text-gray-500 hover:text-shree font-medium transition duration-300 relative group">
+                        Collections
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-shree transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#about" class="text-sm uppercase tracking-wider text-gray-500 hover:text-shree font-medium transition duration-300 relative group">
+                        About Us
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-shree transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </nav>
+
+                <!-- Icons -->
+                <div class="flex items-center space-x-5 text-shree-dark">
+                    <button id="search-toggle-btn" onclick="toggleSearch()" class="hover:text-shree transition duration-300 transform hover:scale-110" title="Search">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+                    <button id="wishlist-toggle-btn" onclick="toggleWishlistPanel()" class="hover:text-shree transition duration-300 transform hover:scale-110 relative" title="Wishlist">
+                        <i data-lucide="heart" class="w-5 h-5"></i>
+                        <span id="wishlist-count-badge" class="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button id="profile-toggle-btn" onclick="toggleProfile()" class="hover:text-shree transition duration-300 transform hover:scale-110" title="My Account">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </button>
+                    <button id="cart-toggle-btn" onclick="toggleCart()" class="hover:text-shree transition duration-300 transform hover:scale-110 relative" title="Cart">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        <span id="cart-count-badge" class="absolute -top-1.5 -right-1.5 bg-shree text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEARCH OVERLAY -->
+    <div id="search-overlay" class="search-overlay">
+        <div class="max-w-2xl mx-auto">
+            <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="search" class="w-5 h-5 text-shree flex-shrink-0"></i>
+                <input id="search-input" type="text" placeholder="Search products, categories..." autocomplete="off"
+                    oninput="runSearch(this.value)"
+                    class="flex-1 bg-transparent text-shree-dark text-lg placeholder-gray-400 focus:outline-none font-sans"
+                    style="border:none;">
+                <button onclick="toggleSearch()" class="text-gray-400 hover:text-shree-dark transition flex-shrink-0">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="search-results" class="max-h-80 overflow-y-auto"></div>
+            <p id="search-hint" class="text-xs text-gray-400 mt-2">Type to search across all products</p>
+        </div>
+    </div>
+
+    <!-- WISHLIST SIDEBAR -->
+    <div id="wishlist-sidebar" class="wishlist-sidebar">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+            <h2 class="font-serif text-xl text-shree-dark font-semibold">My Wishlist</h2>
+            <button onclick="toggleWishlistPanel()" class="text-gray-400 hover:text-shree-dark transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div id="wishlist-items-container" class="flex-1 overflow-y-auto px-6 py-4">
+            <p id="wishlist-empty-msg" class="text-center text-gray-400 text-sm py-16">Your wishlist is empty.<br>Heart a product to save it here!</p>
+        </div>
+    </div>
+
+    <!-- PROFILE MODAL -->
+    <div id="profile-modal" class="profile-modal">
+        <div class="modal-box">
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-100">
+                <button id="tab-login" onclick="switchProfileTab('login')" class="flex-1 py-4 text-sm uppercase tracking-wider font-semibold text-shree-dark border-b-2 border-shree-dark transition">Sign In</button>
+                <button id="tab-signup" onclick="switchProfileTab('signup')" class="flex-1 py-4 text-sm uppercase tracking-wider font-semibold text-gray-400 border-b-2 border-transparent transition">Create Account</button>
+                <button onclick="toggleProfile()" class="px-4 text-gray-400 hover:text-shree-dark transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <!-- Sign In Form -->
+            <div id="form-login" class="p-8">
+                <h3 class="font-serif text-2xl text-shree-dark font-bold mb-1">Welcome Back</h3>
+                <p class="text-sm text-gray-400 mb-6">Sign in to your Shree account</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Email</label>
+                        <input id="login-email" type="email" placeholder="your@email.com" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Password</label>
+                        <input id="login-password" type="password" placeholder="••••••••" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition">
+                    </div>
+                    <button onclick="handleLogin()" class="w-full bg-shree-dark text-white py-3.5 uppercase tracking-widest text-sm font-semibold hover:bg-shree transition">
+                        Sign In
+                    </button>
+                    <p class="text-center text-xs text-gray-400">Forgot password? <a href="#" class="text-shree hover:underline">Reset here</a></p>
+                </div>
+            </div>
+            <!-- Sign Up Form -->
+            <div id="form-signup" class="p-8 hidden">
+                <h3 class="font-serif text-2xl text-shree-dark font-bold mb-1">Join Shree</h3>
+                <p class="text-sm text-gray-400 mb-6">Create your free account today</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Full Name</label>
+                        <input id="signup-name" type="text" placeholder="Your Name" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Email</label>
+                        <input id="signup-email" type="email" placeholder="your@email.com" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Password</label>
+                        <input id="signup-password" type="password" placeholder="Create a password" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition">
+                    </div>
+                    <button onclick="handleSignup()" class="w-full bg-shree-dark text-white py-3.5 uppercase tracking-widest text-sm font-semibold hover:bg-shree transition">
+                        Create Account
+                    </button>
+                </div>
+            </div>
+            <!-- Logged In View -->
+            <div id="form-loggedin" class="p-8 hidden">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-shree-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="user" class="w-8 h-8 text-shree"></i>
+                    </div>
+                    <h3 id="profile-greeting" class="font-serif text-xl text-shree-dark font-bold">Hello!</h3>
+                    <p id="profile-email-display" class="text-sm text-gray-400"></p>
+                </div>
+                <div class="space-y-2">
+                    <button onclick="toggleWishlistPanel(); toggleProfile();" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-shree-bg transition text-left text-sm text-shree-dark">
+                        <i data-lucide="heart" class="w-4 h-4 text-rose-400"></i> My Wishlist
+                    </button>
+                    <button onclick="toggleCart(); toggleProfile();" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-shree-bg transition text-left text-sm text-shree-dark">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 text-shree"></i> My Cart
+                    </button>
+                    <a href="/admin.html" class="w-full flex items-center gap-3 px-4 py-3 bg-shree-bg hover:bg-shree/10 transition text-left text-sm text-shree-dark font-semibold rounded">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-shree"></i> Store Admin Panel
+                    </a>
+                    <hr class="border-gray-100 my-2">
+                    <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 transition text-left text-sm text-red-400">
+                        <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div id="modal-overlay" class="modal-overlay" onclick="closeAll()"></div>
+
+    <!-- PRODUCT QUICK-VIEW MODAL -->
+    <div id="product-modal" class="product-modal">
+        <div class="pm-box">
+            <!-- Image Column -->
+            <div class="pm-img-col relative">
+                <img id="pm-img" src="" alt="Product" style="min-height:320px;">
+                <!-- Badge -->
+                <span id="pm-badge" class="absolute top-4 left-4 bg-shree text-white text-xs px-2 py-1 uppercase tracking-wide hidden"></span>
+            </div>
+            <!-- Info Column -->
+            <div class="pm-info-col px-8 py-8 flex flex-col">
+                <!-- Close -->
+                <div class="flex justify-end mb-2">
+                    <button onclick="closeProductModal()" class="text-gray-300 hover:text-shree-dark transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <!-- Category tag -->
+                <p id="pm-category" class="text-xs text-shree uppercase tracking-widest font-semibold mb-2"></p>
+                <!-- Name -->
+                <h2 id="pm-name" class="font-serif text-3xl text-shree-dark font-bold leading-tight mb-3"></h2>
+                <!-- Rating (static decorative) -->
+                <div class="flex items-center gap-1 mb-4">
+                    <span class="text-yellow-400 text-sm">★★★★</span><span class="text-yellow-300 text-sm">★</span>
+                    <span class="text-xs text-gray-400 ml-1">(4.2 • 128 reviews)</span>
+                </div>
+                <!-- Price -->
+                <div class="flex items-baseline gap-3 mb-5">
+                    <span id="pm-price" class="font-serif text-3xl text-shree-dark font-bold"></span>
+                    <span class="text-sm text-gray-400 line-through" id="pm-original-price"></span>
+                    <span class="text-xs text-green-600 font-semibold" id="pm-discount"></span>
+                </div>
+                <!-- Description -->
+                <p id="pm-desc" class="text-sm text-gray-600 leading-relaxed mb-6"></p>
+                <!-- Size Selector -->
+                <div class="mb-6" id="pm-size-section">
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-2 font-semibold">Select Size</p>
+                    <div class="flex flex-wrap gap-2" id="pm-sizes"></div>
+                </div>
+                <!-- Quantity -->
+                <div class="flex items-center gap-4 mb-6">
+                    <p class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Qty</p>
+                    <div class="flex items-center border border-gray-200">
+                        <button onclick="pmChangeQty(-1)" class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-shree-dark hover:bg-shree-bg transition text-lg">−</button>
+                        <span id="pm-qty" class="w-10 text-center text-sm font-semibold">1</span>
+                        <button onclick="pmChangeQty(1)" class="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-shree-dark hover:bg-shree-bg transition text-lg">+</button>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                    <button id="pm-add-cart-btn" class="flex-1 bg-shree-dark text-white py-3.5 uppercase tracking-widest text-sm font-semibold hover:bg-shree transition flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        Add to Cart
+                    </button>
+                    <button id="pm-buy-btn" class="flex-1 border-2 border-shree-dark text-shree-dark py-3.5 uppercase tracking-widest text-sm font-semibold hover:bg-shree-dark hover:text-white transition flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        Buy Now
+                    </button>
+                </div>
+                <!-- Meta info -->
+                <div class="border-t border-gray-100 pt-5 space-y-2 text-xs text-gray-500">
+                    <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Free delivery on orders above $80</div>
+                    <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Easy 7-day returns</div>
+                    <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-shree" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> 100% Secure Checkout</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+            <h2 class="font-serif text-xl text-shree-dark font-semibold">Your Cart</h2>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-shree-dark transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <!-- Cart Items -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto px-6 py-4">
+            <p id="cart-empty-msg" class="text-center text-gray-400 text-sm py-16">Your cart is empty.<br>Start shopping to add items!</p>
+        </div>
+        <!-- Cart Footer -->
+        <div id="cart-footer" class="hidden border-t border-gray-100 px-6 py-5 bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 text-sm uppercase tracking-wider">Subtotal</span>
+                <span id="cart-total" class="font-serif text-2xl text-shree-dark font-bold">$0.00</span>
+            </div>
+            <button onclick="openCheckout()" class="w-full bg-shree-dark text-white py-4 uppercase tracking-widest text-sm font-semibold hover:bg-shree transition flex items-center justify-center gap-2">
+                <i data-lucide="credit-card" class="w-4 h-4"></i> Proceed to Checkout
+            </button>
+            <button onclick="toggleCart()" class="mt-3 w-full border border-shree-dark text-shree-dark py-3 text-sm uppercase tracking-wider hover:bg-shree-bg transition">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkout-modal" class="checkout-modal">
+        <div class="modal-box">
+            <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 sticky top-0 bg-white z-10">
+                <h2 class="font-serif text-xl text-shree-dark font-semibold">Checkout</h2>
+                <button onclick="closeCheckout()" class="text-gray-400 hover:text-shree-dark transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="px-6 py-6">
+                <!-- Order Summary -->
+                <div class="mb-6 p-4 bg-shree-bg rounded">
+                    <h3 class="text-xs uppercase tracking-wider text-shree mb-3 font-semibold">Order Summary</h3>
+                    <div id="checkout-summary" class="space-y-2 text-sm text-gray-700"></div>
+                    <div class="border-t border-shree-light/20 mt-3 pt-3 flex justify-between font-semibold">
+                        <span>Total</span>
+                        <span id="checkout-total" class="text-shree-dark font-serif text-lg">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- Shipping Details -->
+                <h3 class="text-xs uppercase tracking-wider text-shree mb-4 font-semibold">Shipping Details</h3>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Full Name *</label>
+                        <input id="checkout-name" type="text" placeholder="Your Full Name" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition" required>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Phone Number *</label>
+                        <input id="checkout-phone" type="tel" placeholder="10-digit number" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition" required>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Email Address</label>
+                        <input id="checkout-email" type="email" placeholder="your@email.com" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Delivery Address *</label>
+                        <textarea id="checkout-address" placeholder="House No., Street, Locality" rows="2" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition resize-none" required></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">City *</label>
+                        <input id="checkout-city" type="text" placeholder="City" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">State *</label>
+                        <select id="checkout-state" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition bg-white" required>
+                            <option value="">Select State</option>
+                            <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
+                            <option>Delhi</option><option>Goa</option><option>Gujarat</option>
+                            <option>Haryana</option><option>Himachal Pradesh</option>
+                            <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+                            <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+                            <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+                            <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+                            <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+                            <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+                            <option>West Bengal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">PIN Code *</label>
+                        <input id="checkout-pin" type="text" maxlength="6" placeholder="6-digit PIN" class="w-full border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-shree transition" required>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <h3 class="text-xs uppercase tracking-wider text-shree mb-4 font-semibold">Payment Method</h3>
+                <div class="space-y-3 mb-6">
+                    <div class="pay-option selected" id="pay-cod" onclick="selectPayment('cod')">
+                        <span class="text-xl">💵</span>
+                        <div>
+                            <p class="font-semibold text-sm text-shree-dark">Cash on Delivery (COD)</p>
+                            <p class="text-xs text-gray-500">Pay when your order arrives</p>
+                        </div>
+                    </div>
+                    <div class="pay-option" id="pay-online" onclick="selectPayment('online')">
+                        <span class="text-xl">💳</span>
+                        <div>
+                            <p class="font-semibold text-sm text-shree-dark">Online Payment</p>
+                            <p class="text-xs text-gray-500">UPI / Net Banking / Debit / Credit Card</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="placeOrder()" class="w-full bg-shree-dark text-white py-4 uppercase tracking-widest text-sm font-semibold hover:bg-shree transition flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i> Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER CONFIRMATION MODAL -->
+    <div id="order-confirm-modal" class="order-confirm-modal">
+        <div class="modal-box" style="max-width:480px; border-radius: 2px; background: #fff; box-shadow: 0 25px 50px rgba(0,0,0,0.25); padding: 48px 36px; text-align: center;">
+            <div class="pop-in mb-6 inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-50">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h2 class="font-serif text-3xl text-shree-dark font-bold mb-2">Order Confirmed!</h2>
+            <p class="text-gray-500 text-sm mb-6">Thank you for shopping with Shree. Your order has been successfully placed.</p>
+            <div class="bg-shree-bg border border-shree-light/20 rounded p-4 mb-6 text-left">
+                <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Order ID</p>
+                <p id="order-id-display" class="font-mono font-bold text-shree-dark text-lg tracking-widest"></p>
+                <hr class="my-3 border-shree-light/20">
+                <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Delivery To</p>
+                <p id="order-name-display" class="text-sm text-shree-dark font-semibold"></p>
+                <p id="order-address-display" class="text-xs text-gray-500 mt-0.5"></p>
+                <hr class="my-3 border-shree-light/20">
+                <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Payment</p>
+                <p id="order-payment-display" class="text-sm text-shree-dark font-semibold"></p>
+                <hr class="my-3 border-shree-light/20">
+                <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Estimated Delivery</p>
+                <p class="text-sm text-shree-dark font-semibold">5–7 Business Days</p>
+            </div>
+            <button onclick="closeOrderConfirm()" class="w-full bg-shree-dark text-white py-3.5 uppercase tracking-widest text-sm font-semibold hover:bg-shree transition">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden pt-20 bg-black">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 w-full h-full">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60 z-10"></div>
+            <img src="public/hero_bg.jpg" alt="Shree Traditional Elegance" class="w-full h-full object-cover object-center opacity-95 transition-all duration-700">
+        </div>
+
+        <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
+            <p class="text-sm md:text-base uppercase tracking-[0.3em] text-amber-200 font-semibold mb-4 animate-fade-in-up drop-shadow-md" style="animation-delay: 0.2s;">Welcome to</p>
+            
+            <!-- Animated Brand Name -->
+            <h1 class="shree-animate font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-6 tracking-tight drop-shadow-2xl">
+                <span>S</span><span>H</span><span>R</span><span>E</span><span>E</span>
+            </h1>
+            
+            <p class="text-lg md:text-2xl text-stone-100 font-light mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up drop-shadow-md" style="animation-delay: 0.8s;">
+                Where timeless tradition seamlessly weaves into modern elegance. Discover our curated collection of artisanal masterpieces.
+            </p>
+            <div class="animate-fade-in-up" style="animation-delay: 1s;">
+                <a href="#collections" class="inline-flex items-center px-8 py-4 bg-[#8D3A3A] text-white font-medium tracking-wider uppercase text-sm hover:bg-[#6E2C2C] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 rounded-sm">
+                    Explore Collection
+                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES (Modern Grid) -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-3xl md:text-4xl text-shree-dark font-bold mb-4">Curated For You</h2>
+                <div class="w-16 h-1 bg-shree mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Category 1 -->
+                <div class="group relative h-96 overflow-hidden reveal bg-shree-bg" style="transition-delay: 0.1s;">
+                    <img src="public/red_zari_saree.png" alt="Ethnic Wear" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-2xl text-white mb-2">Ethnic Wear</h3>
+                        <p class="text-white/80 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Handcrafted elegance for modern occasions.</p>
+                        <a href="#" class="text-white text-sm uppercase tracking-wider font-medium border-b border-white pb-1 inline-block hover:text-shree-light hover:border-shree-light transition">Shop Now</a>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="group relative h-96 overflow-hidden reveal bg-shree-bg" style="transition-delay: 0.2s;">
+                    <img src="public/yellow_bridal_saree.png" alt="Bridal Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-2xl text-white mb-2">Bridal Collection</h3>
+                        <p class="text-white/80 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Timeless elegance for your special day.</p>
+                        <a href="#" class="text-white text-sm uppercase tracking-wider font-medium border-b border-white pb-1 inline-block hover:text-shree-light hover:border-shree-light transition">Shop Now</a>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="group relative h-96 overflow-hidden reveal bg-shree-bg" style="transition-delay: 0.3s;">
+                    <img src="public/blue_pink_saree.png" alt="Festive Wear" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-2xl text-white mb-2">Festive Wear</h3>
+                        <p class="text-white/80 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Vibrant colors and intricate craftsmanship.</p>
+                        <a href="#" class="text-white text-sm uppercase tracking-wider font-medium border-b border-white pb-1 inline-block hover:text-shree-light hover:border-shree-light transition">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW ARRIVALS & CATALOG FILTER SECTION -->
+    <section id="collections" class="py-16 bg-shree-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Breadcrumbs & Section Title -->
+            <div class="mb-8 reveal">
+                <p class="text-xs uppercase tracking-widest text-shree font-medium mb-2">Home / Collections</p>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-shree-light/20 pb-6">
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-5xl text-shree-dark font-bold">Our Collections</h2>
+                        <p class="text-gray-600 text-sm mt-1">Discover handcrafted elegance, modern fits, and timeless traditional wear.</p>
+                    </div>
+                    <!-- Top Sort & Mobile Filter Toggle -->
+                    <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+                        <button onclick="toggleMobileFilter()" class="lg:hidden flex items-center gap-2 bg-white border border-shree-light/30 px-4 py-2 text-xs font-semibold text-shree-dark uppercase tracking-wider rounded-sm shadow-sm">
+                            <i data-lucide="sliders" class="w-4 h-4 text-shree"></i> Filters
+                        </button>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Sort By:</span>
+                            <select id="sort-by-select" onchange="applyCatalogFilters()" class="bg-white border border-shree-light/20 text-shree-dark text-xs font-semibold px-3 py-2 focus:outline-none rounded-sm cursor-pointer shadow-sm">
+                                <option value="recommended">Recommended</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="name">Name: A to Z</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN CATALOG 2-COLUMN LAYOUT -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start">
+                
+                <!-- LEFT FILTER SIDEBAR -->
+                <aside id="filter-sidebar" class="w-full lg:w-64 flex-shrink-0 bg-white p-6 rounded border border-shree-light/20 shadow-sm sticky top-24 z-20">
+                    <div class="flex justify-between items-center pb-4 mb-4 border-b border-shree-light/20">
+                        <h3 class="font-serif text-lg font-bold text-shree-dark uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="sliders" class="w-4 h-4 text-shree"></i> Filters
+                        </h3>
+                        <button onclick="resetCatalogFilters()" class="text-xs text-shree hover:underline font-medium">Clear All</button>
+                    </div>
+
+                    <!-- PRICE FILTER -->
+                    <div class="mb-6">
+                        <div class="filter-accordion-btn" onclick="toggleAccordion('price-acc')">
+                            <span>PRICE</span>
+                            <span id="price-acc-icon" class="text-base font-normal">−</span>
+                        </div>
+                        <div id="price-acc" class="pt-3">
+                            <div class="flex justify-between items-center text-xs font-semibold text-shree-dark mb-2">
+                                <span>Max Price:</span>
+                                <span id="price-slider-display" class="font-mono text-sm text-shree">$300</span>
+                            </div>
+                            <input type="range" id="price-range-slider" min="35" max="300" step="5" value="300" oninput="updatePriceSlider(this.value)" class="w-full shree-range mb-4">
+                            <button onclick="applyCatalogFilters()" class="w-full bg-[#8D3A3A] text-white text-xs uppercase tracking-widest font-semibold py-2 px-4 rounded-sm hover:bg-[#6E2C2C] transition shadow-sm">
+                                Apply Filter
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CATEGORY FILTER -->
+                    <div class="mb-6">
+                        <div class="filter-accordion-btn" onclick="toggleAccordion('cat-acc')">
+                            <span>CATEGORY</span>
+                            <span id="cat-acc-icon" class="text-base font-normal">−</span>
+                        </div>
+                        <div id="cat-acc" class="pt-3 space-y-2 text-xs">
+                            <label class="flex items-center justify-between cursor-pointer text-gray-700 hover:text-shree transition">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" value="all" class="cat-checkbox accent-shree" checked onchange="handleCatCheckbox(this)">
+                                    <span>All Products</span>
+                                </div>
+                                <span class="text-gray-400 font-mono">(24)</span>
+                            </label>
+                            <label class="flex items-center justify-between cursor-pointer text-gray-700 hover:text-shree transition">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" value="sarees" class="cat-checkbox accent-shree" onchange="handleCatCheckbox(this)">
+                                    <span>Sarees</span>
+                                </div>
+                                <span class="text-gray-400 font-mono">(4)</span>
+                            </label>
+                            <label class="flex items-center justify-between cursor-pointer text-gray-700 hover:text-shree transition">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" value="kurtis" class="cat-checkbox accent-shree" onchange="handleCatCheckbox(this)">
+                                    <span>Kurtis</span>
+                                </div>
+                                <span class="text-gray-400 font-mono">(5)</span>
+                            </label>
+                            <label class="flex items-center justify-between cursor-pointer text-gray-700 hover:text-shree transition">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" value="dupattas" class="cat-checkbox accent-shree" onchange="handleCatCheckbox(this)">
+                                    <span>Dupattas</span>
+                                </div>
+                                <span class="text-gray-400 font-mono">(5)</span>
+                            </label>
+                            <label class="flex items-center justify-between cursor-pointer text-gray-700 hover:text-shree transition">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" value="jeans" class="cat-checkbox accent-shree" onchange="handleCatCheckbox(this)">
+                                    <span>Jeans</span>
+                                </div>
+                                <span class="text-gray-400 font-mono">(5)</span>
+                            </label>
+                            <label class="flex items-center justify-between cursor-pointer text-gray-700 hover:text-shree transition">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" value="tshirts" class="cat-checkbox accent-shree" onchange="handleCatCheckbox(this)">
+                                    <span>T-Shirts</span>
+                                </div>
+                                <span class="text-gray-400 font-mono">(5)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- COLOUR FILTER -->
+                    <div class="mb-6">
+                        <div class="filter-accordion-btn" onclick="toggleAccordion('color-acc')">
+                            <span>COLOUR</span>
+                            <span id="color-acc-icon" class="text-base font-normal">−</span>
+                        </div>
+                        <div id="color-acc" class="pt-3">
+                            <div class="flex flex-wrap gap-2.5">
+                                <div onclick="toggleColorFilter(this, 'red')" class="filter-color-dot bg-red-600" title="Red / Terracotta" data-color="red"></div>
+                                <div onclick="toggleColorFilter(this, 'blue')" class="filter-color-dot bg-blue-600" title="Blue / Indigo" data-color="blue"></div>
+                                <div onclick="toggleColorFilter(this, 'green')" class="filter-color-dot bg-emerald-600" title="Green / Mint" data-color="green"></div>
+                                <div onclick="toggleColorFilter(this, 'yellow')" class="filter-color-dot bg-amber-400" title="Yellow / Gold" data-color="yellow"></div>
+                                <div onclick="toggleColorFilter(this, 'black')" class="filter-color-dot bg-gray-900" title="Black / Dark" data-color="black"></div>
+                                <div onclick="toggleColorFilter(this, 'brown')" class="filter-color-dot bg-amber-800" title="Brown / Earth" data-color="brown"></div>
+                                <div onclick="toggleColorFilter(this, 'pink')" class="filter-color-dot bg-pink-500" title="Pink" data-color="pink"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FIT & OCCASION ACCORDION -->
+                    <div class="mb-4">
+                        <div class="filter-accordion-btn" onclick="toggleAccordion('fit-acc')">
+                            <span>FIT & OCCASION</span>
+                            <span id="fit-acc-icon" class="text-base font-normal">+</span>
+                        </div>
+                        <div id="fit-acc" class="pt-2 text-xs text-gray-500 hidden space-y-1.5">
+                            <p class="flex items-center gap-1.5">• Festive & Wedding Wear</p>
+                            <p class="flex items-center gap-1.5">• Daily Casual Fit</p>
+                            <p class="flex items-center gap-1.5">• Handcrafted Heritage</p>
+                            <p class="flex items-center gap-1.5">• Modern Streetwear</p>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- RIGHT PRODUCT CATALOG AREA -->
+                <div class="flex-1 w-full">
+                    <!-- Top Status Bar -->
+                    <div class="flex items-center justify-between mb-6 bg-white px-5 py-3 rounded border border-shree-light/20 shadow-sm">
+                        <span id="catalog-count-display" class="text-xs uppercase tracking-wider font-semibold text-shree-dark">Showing 24 Products</span>
+                        <!-- Quick Category Pills -->
+                        <div class="hidden sm:flex items-center gap-2">
+                            <button class="category-tab active px-3 py-1 bg-shree-dark text-white text-[11px] uppercase tracking-wider font-semibold rounded-sm transition" data-category="all">All</button>
+                            <button class="category-tab px-3 py-1 bg-shree-bg text-shree-dark text-[11px] uppercase tracking-wider font-semibold rounded-sm hover:bg-shree-light/20 transition" data-category="sarees">Sarees</button>
+                            <button class="category-tab px-3 py-1 bg-shree-bg text-shree-dark text-[11px] uppercase tracking-wider font-semibold rounded-sm hover:bg-shree-light/20 transition" data-category="kurtis">Kurtis</button>
+                            <button class="category-tab px-3 py-1 bg-shree-bg text-shree-dark text-[11px] uppercase tracking-wider font-semibold rounded-sm hover:bg-shree-light/20 transition" data-category="dupattas">Dupattas</button>
+                            <button class="category-tab px-3 py-1 bg-shree-bg text-shree-dark text-[11px] uppercase tracking-wider font-semibold rounded-sm hover:bg-shree-light/20 transition" data-category="jeans">Jeans</button>
+                            <button class="category-tab px-3 py-1 bg-shree-bg text-shree-dark text-[11px] uppercase tracking-wider font-semibold rounded-sm hover:bg-shree-light/20 transition" data-category="tshirts">T-Shirts</button>
+                        </div>
+                    </div>
+
+                    <!-- Product Grid (3 cols on desktop) -->
+                    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Product 1 (Saree) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="sarees" data-product-color="red" data-product-price="145">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/red_zari_saree.png" alt="Terracotta Silk Saree" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <!-- Modern Add to Cart Overlay -->
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Handwoven</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Terracotta Silk Saree</h3>
+                        <p class="text-gray-900 font-medium">$145.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 2 (Saree) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="sarees" data-product-color="blue" data-product-price="299" style="transition-delay: 0.1s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/blue_pink_saree.png" alt="Royal Blue & Pink Silk Saree" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Pure Silk</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Royal Blue & Pink Silk Saree</h3>
+                        <p class="text-gray-900 font-medium">$299.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 3 (Saree) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="sarees" data-product-color="green" data-product-price="85" style="transition-delay: 0.2s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/green_net_saree.png" alt="Mint Green Net Saree" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Designer Wear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Mint Green Net Saree</h3>
+                        <p class="text-gray-900 font-medium">$85.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 4 (Saree) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="sarees" data-product-color="yellow" data-product-price="110" style="transition-delay: 0.3s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/yellow_bridal_saree.png" alt="Vibrant Yellow Bridal Saree" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-shree text-white text-xs px-2 py-1 uppercase tracking-wide">Bestseller</span>
+                        </div>
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Bridal Collection</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Vibrant Yellow Bridal Saree</h3>
+                        <p class="text-gray-900 font-medium">$110.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 5 (Kurti) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="kurtis" data-product-color="yellow" data-product-price="115" style="transition-delay: 0.1s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/orange_anarkali_kurti.png" alt="Mustard Orange Anarkali Kurti" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Handcrafted</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Mustard Orange Anarkali Kurti</h3>
+                        <p class="text-gray-900 font-medium">$115.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 6 (Kurti) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="kurtis" data-product-color="green" data-product-price="75" style="transition-delay: 0.2s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/green_bandhani_kurti.png" alt="Olive Green Bandhani Kurti" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Everyday Wear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Olive Green Bandhani Kurti</h3>
+                        <p class="text-gray-900 font-medium">$75.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 7 (Kurti) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="kurtis" data-product-color="black" data-product-price="130" style="transition-delay: 0.3s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/black_butterfly_kurti.png" alt="Butterfly Print Kurti Set" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Premium</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Butterfly Print Kurti Set</h3>
+                        <p class="text-gray-900 font-medium">$130.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 8 (Kurti) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="kurtis" data-product-color="blue" data-product-price="140" style="transition-delay: 0.4s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/blue_lace_kurti.png" alt="Pastel Blue Lace Kurti" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Luxury Ethnic</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Pastel Blue Lace Kurti</h3>
+                        <p class="text-gray-900 font-medium">$140.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 9 (Kurti) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="kurtis" data-product-color="blue" data-product-price="95" style="transition-delay: 0.5s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/indigo_kurti.png" alt="Deep Indigo Embroidered Kurti" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Elegant Wear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Deep Indigo Embroidered Kurti</h3>
+                        <p class="text-gray-900 font-medium">$95.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 10 (Dupatta) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="dupattas" data-product-color="pink" data-product-price="45" style="transition-delay: 0.1s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/pink_bandhani_dupatta.png" alt="Pink Bandhani Silk Dupatta" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Pure Silk</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Pink Bandhani Silk Dupatta</h3>
+                        <p class="text-gray-900 font-medium">$45.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 11 (Dupatta) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="dupattas" data-product-color="red" data-product-price="95" style="transition-delay: 0.2s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/patola_silk_dupatta.png" alt="Royal Patola Silk Dupatta" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Handloom</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Royal Patola Silk Dupatta</h3>
+                        <p class="text-gray-900 font-medium">$95.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 12 (Dupatta) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="dupattas" data-product-color="blue" data-product-price="65" style="transition-delay: 0.3s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/phulkari_dupatta.png" alt="Navy Multi Phulkari Dupatta" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Hand Embroidered</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Navy Multi Phulkari Dupatta</h3>
+                        <p class="text-gray-900 font-medium">$65.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 13 (Dupatta) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="dupattas" data-product-color="yellow" data-product-price="85" style="transition-delay: 0.4s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/yellow_patola_dupatta.png" alt="Golden Ikat Patola Dupatta" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Pure Silk</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Golden Ikat Patola Dupatta</h3>
+                        <p class="text-gray-900 font-medium">$85.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 14 (Dupatta) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="dupattas" data-product-color="brown" data-product-price="55" style="transition-delay: 0.5s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/kalamkari_dupatta.png" alt="Earthy Kalamkari Cotton Dupatta" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Handpainted</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Earthy Kalamkari Cotton Dupatta</h3>
+                        <p class="text-gray-900 font-medium">$55.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 15 (Jeans) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="jeans" data-product-color="blue" data-product-price="89" style="transition-delay: 0.1s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/blue_cargo_jeans.png" alt="Relaxed Denim Cargo Jeans" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Streetwear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Relaxed Denim Cargo Jeans</h3>
+                        <p class="text-gray-900 font-medium">$89.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 16 (Jeans) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="jeans" data-product-color="blue" data-product-price="59" style="transition-delay: 0.2s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/light_skinny_jeans.png" alt="Classic Light Wash Skinny Jeans" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Casual Wear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Classic Light Wash Skinny Jeans</h3>
+                        <p class="text-gray-900 font-medium">$59.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 17 (Jeans) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="jeans" data-product-color="blue" data-product-price="79" style="transition-delay: 0.3s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/dark_wide_jeans.png" alt="High-Waist Wide-Leg Jeans" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Retro Fit</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">High-Waist Wide-Leg Jeans</h3>
+                        <p class="text-gray-900 font-medium">$79.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 18 (Jeans) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="jeans" data-product-color="blue" data-product-price="99" style="transition-delay: 0.4s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/ring_seam_jeans.png" alt="Ring Seam Skinny Jeans" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Designer Fit</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Ring Seam Skinny Jeans</h3>
+                        <p class="text-gray-900 font-medium">$99.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 19 (Jeans) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="jeans" data-product-color="brown" data-product-price="85" style="transition-delay: 0.5s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/brown_cargo_jeans.png" alt="Earth Tone Cargo Jeans" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Streetwear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Earth Tone Cargo Jeans</h3>
+                        <p class="text-gray-900 font-medium">$85.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 20 (T-Shirt) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="tshirts" data-product-color="yellow" data-product-price="35" style="transition-delay: 0.1s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/orange_smile_tshirt.png" alt="Terracotta Smile Oversized Tee" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Oversized Fit</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Terracotta Smile Oversized Tee</h3>
+                        <p class="text-gray-900 font-medium">$35.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 21 (T-Shirt) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="tshirts" data-product-color="brown" data-product-price="38" style="transition-delay: 0.2s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/brown_hearts_tshirt.png" alt="Five Hearts Oversized Tee" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Oversized Fit</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Five Hearts Oversized Tee</h3>
+                        <p class="text-gray-900 font-medium">$38.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 22 (T-Shirt) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="tshirts" data-product-color="black" data-product-price="42" style="transition-delay: 0.3s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/gothic_anime_tshirt.png" alt="Gothic Anime Punk Tee" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Graphic Tee</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Gothic Anime Punk Tee</h3>
+                        <p class="text-gray-900 font-medium">$42.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 23 (T-Shirt) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="tshirts" data-product-color="black" data-product-price="49" style="transition-delay: 0.4s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/crow_y2k_tshirt.png" alt="Y2K Crow Double-Layered Tee" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Streetwear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Y2K Crow Double-Layered Tee</h3>
+                        <p class="text-gray-900 font-medium">$49.00</p>
+                    </div>
+                </div>
+
+                <!-- Product 24 (T-Shirt) -->
+                <div class="group reveal cursor-pointer product-card" data-product-category="tshirts" data-product-color="black" data-product-price="45" style="transition-delay: 0.5s;">
+                    <div class="relative bg-white aspect-[3/4] overflow-hidden mb-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img src="public/cross_wings_tshirt.png" alt="Gothic Wings & Cross Tee" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                            <button class="bg-shree-dark text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree w-full flex items-center justify-center space-x-2 transition">
+                                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white p-2 rounded-full shadow hover:bg-shree-bg transition text-gray-400 hover:text-shree">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-shree uppercase tracking-wider mb-1">Streetwear</p>
+                        <h3 class="font-serif text-lg text-shree-dark mb-1 group-hover:text-shree transition">Gothic Wings & Cross Tee</h3>
+                        <p class="text-gray-900 font-medium">$45.00</p>
+                    </div>
+                </div>
+            </div> <!-- End Right Product Area -->
+            
+            </div> <!-- End Main Catalog 2-Column Layout -->
+
+            <!-- Empty State for new/coming soon categories -->
+            <div id="category-empty-state" class="hidden text-center py-20 reveal">
+                <div class="mx-auto w-16 h-16 bg-[#FAF8F5] border border-shree-light/20 rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                    <i data-lucide="sparkles" class="w-8 h-8"></i>
+                </div>
+                <h3 class="font-serif text-2xl text-shree-dark font-semibold mb-2">Designs Coming Soon</h3>
+                <p class="text-gray-500 text-sm max-w-sm mx-auto">Our exclusive collection of premium <span class="category-name font-medium text-shree"></span> is currently being handcrafted. Sign up to get notified when they arrive!</p>
+            </div>
+            
+            <div class="mt-10 text-center md:hidden">
+                <a href="#" class="inline-flex items-center border border-shree-dark text-shree-dark px-6 py-3 font-medium hover:bg-shree-dark hover:text-white transition">
+                    View All Collections
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRAND STORY (Split Layout) -->
+    <section id="about" class="py-0 bg-white">
+        <div class="flex flex-col lg:flex-row min-h-[600px]">
+            <div class="lg:w-1/2 relative bg-shree-dark min-h-[400px] lg:min-h-full">
+                <img src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?q=80&w=2074&auto=format&fit=crop" alt="Craftsmanship" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay">
+            </div>
+            <div class="lg:w-1/2 flex items-center justify-center p-10 lg:p-20 bg-white reveal">
+                <div class="max-w-lg">
+                    <span class="text-shree uppercase tracking-widest text-sm font-semibold mb-4 block">Our Story</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-shree-dark font-bold mb-6 leading-tight">Rooted in Tradition.<br>Designed for Today.</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        At <strong class="font-serif text-shree-dark font-semibold">Shree</strong>, we believe that true elegance never goes out of style. We partner with master artisans across the country to bring you pieces that honor centuries-old techniques, while featuring clean, modern aesthetics suitable for contemporary life.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        Every thread, every carving, and every brushstroke tells a story of heritage, reimagined through a modern lens in our earthy palette of whites and browns.
+                    </p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Signature_Placeholder.png" alt="Founder Signature" class="h-12 opacity-40 mix-blend-multiply filter contrast-200" style="filter: sepia(1) hue-rotate(330deg) saturate(2) brightness(0.5);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES / USP -->
+    <section class="py-16 bg-shree-bg border-t border-b border-shree-light/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-shree-light/30">
+                <div class="p-4 reveal">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="truck" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Free Shipping</h4>
+                    <p class="text-sm text-gray-500">On all orders over $150</p>
+                </div>
+                <div class="p-4 reveal" style="transition-delay: 0.1s;">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Secure Payment</h4>
+                    <p class="text-sm text-gray-500">100% secure checkout</p>
+                </div>
+                <div class="p-4 reveal" style="transition-delay: 0.2s;">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="gem" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Artisan Crafted</h4>
+                    <p class="text-sm text-gray-500">Premium quality guaranteed</p>
+                </div>
+                <div class="p-4 reveal" style="transition-delay: 0.3s;">
+                    <div class="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center text-shree mb-4 shadow-sm">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-serif text-lg text-shree-dark font-semibold mb-2">Easy Returns</h4>
+                    <p class="text-sm text-gray-500">30-day return policy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (Specially designed traditional & modern blend) -->
+    <footer class="bg-shree-dark text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Info -->
+                <div class="lg:col-span-1">
+                    <h3 class="font-serif text-3xl font-bold tracking-widest text-white mb-6">SHREE</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                        Curating the finest blend of traditional Indian craftsmanship and modern minimalist design aesthetics.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-300 hover:bg-white hover:text-shree-dark hover:border-white transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-300 hover:bg-white hover:text-shree-dark hover:border-white transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-serif text-lg mb-6 border-b border-gray-700 pb-2 inline-block">Explore</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">New Arrivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Ethnic Wear</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Artisan Jewelry</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Home Decor</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Gifts</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care -->
+                <div>
+                    <h4 class="font-serif text-lg mb-6 border-b border-gray-700 pb-2 inline-block">Assistance</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Shipping & Returns</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Size Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="font-serif text-lg mb-6 border-b border-gray-700 pb-2 inline-block">Join the Inner Circle</h4>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe for exclusive updates, new arrivals, and insider-only discounts.</p>
+                    <form class="flex flex-col space-y-3">
+                        <input type="email" placeholder="Your email address" class="bg-transparent border border-gray-600 px-4 py-3 text-sm text-white focus:outline-none focus:border-white transition">
+                        <button type="submit" class="bg-white text-shree-dark px-4 py-3 text-sm font-semibold uppercase tracking-wider hover:bg-gray-200 transition">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright line -->
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Shree. All rights reserved.</p>
+                <div class="flex items-center space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    <a href="/admin.html" class="text-amber-300 hover:text-amber-100 font-semibold transition flex items-center gap-1 border-l border-gray-700 pl-4">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i> Store Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subtle background pattern/texture for footer -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md');
+                header.classList.replace('bg-white/90', 'bg-white');
+            } else {
+                header.classList.remove('shadow-md');
+                header.classList.replace('bg-white', 'bg-white/90');
+            }
+        });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((elem) => {
+            observer.observe(elem);
+        });
+
+        // Dynamic Filtering logic for collections tabs
+        const tabs = document.querySelectorAll('.category-tab');
+        const products = document.querySelectorAll('.product-card');
+        const emptyState = document.getElementById('category-empty-state');
+        const grid = document.getElementById('product-grid');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Toggle active styles on tabs
+                tabs.forEach(t => {
+                    t.classList.remove('active', 'bg-shree-dark', 'text-white', 'shadow');
+                    t.classList.add('bg-white', 'text-shree-dark', 'border', 'border-shree-light/20');
+                });
+                tab.classList.add('active', 'bg-shree-dark', 'text-white', 'shadow');
+                tab.classList.remove('bg-white', 'text-shree-dark', 'border', 'border-shree-light/20');
+
+                const category = tab.getAttribute('data-category');
+                let hasVisibleProducts = false;
+
+                products.forEach(product => {
+                    const prodCat = product.getAttribute('data-product-category');
+                    if (category === 'all' || prodCat === category) {
+                        product.classList.remove('hidden');
+                        // Make sure reveal properties are applied
+                        product.style.opacity = '1';
+                        product.style.transform = 'translateY(0)';
+                        hasVisibleProducts = true;
+                    } else {
+                        product.classList.add('hidden');
+                    }
+                });
+
+                // Toggle empty state
+                if (hasVisibleProducts) {
+                    grid.classList.remove('hidden');
+                    emptyState.classList.add('hidden');
+                } else {
+                    grid.classList.add('hidden');
+                    emptyState.classList.remove('hidden');
+                    emptyState.querySelector('.category-name').textContent = tab.textContent.trim();
+                }
+            });
+        });
+
+        // =====================================================
+        //  CART & CHECKOUT SYSTEM
+        // =====================================================
+
+        let cart = []; // { id, name, price, qty, img }
+        let selectedPayment = 'cod';
+
+        // --- Inject "Buy Now" button and wire up all product card buttons ---
+        document.querySelectorAll('.product-card').forEach((card, idx) => {
+            const img = card.querySelector('img');
+            const nameEl = card.querySelector('h3');
+            const priceEl = card.querySelector('p.text-gray-900');
+            const name = nameEl ? nameEl.textContent.trim() : 'Product';
+            const priceText = priceEl ? priceEl.textContent.trim() : '$0.00';
+            const price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
+            const imgSrc = img ? img.getAttribute('src') : '';
+            const productId = 'prod_' + idx;
+
+            // Wire up Add to Cart button
+            const overlay = card.querySelector('.absolute.inset-x-0');
+            if (overlay) {
+                // Make overlay stack buttons vertically
+                overlay.classList.remove('justify-center');
+                overlay.classList.add('flex-col');
+
+                const addCartBtn = overlay.querySelector('button');
+                if (addCartBtn) {
+                    addCartBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        addToCart(productId, name, price, imgSrc);
+                    });
+                }
+
+                // Inject "Buy Now" button
+                const buyBtn = document.createElement('button');
+                buyBtn.className = 'bg-white text-shree-dark border border-shree-dark px-6 py-2 text-sm uppercase tracking-wider hover:bg-shree-dark hover:text-white w-full flex items-center justify-center space-x-2 transition mt-1';
+                buyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg><span>Buy Now</span>';
+                buyBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    buyNow(productId, name, price, imgSrc);
+                });
+                overlay.appendChild(buyBtn);
+            }
+
+            // Wire up Wishlist heart button
+            const wishBtn = card.querySelector('.absolute.top-4.right-4 button');
+            if (wishBtn) {
+                wishBtn.classList.add('btn-wishlist');
+                wishBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleWishlist(wishBtn, productId, name, price, imgSrc);
+                });
+            }
+
+            // Wire up card CLICK → open product modal
+            card.addEventListener('click', (e) => {
+                // Don't open if user clicked a button inside the card
+                if (e.target.closest('button')) return;
+                openProductModal(productId, name, price, imgSrc, card);
+            });
+        });
+
+        // Re-init lucide icons after DOM injection
+        if (window.lucide) lucide.createIcons();
+
+        // --- Wishlist Data ---
+        let wishlist = []; // { id, name, price, img }
+
+        // --- Wishlist Toggle (heart button on card) ---
+        function toggleWishlist(btn, id, name, price, img) {
+            btn.classList.toggle('wished');
+            const icon = btn.querySelector('i');
+            const isWished = btn.classList.contains('wished');
+            if (icon) {
+                icon.setAttribute('fill', isWished ? '#e11d48' : 'none');
+                icon.style.color = isWished ? '#e11d48' : '';
+            }
+            if (isWished) {
+                if (!wishlist.find(w => w.id === id)) {
+                    wishlist.push({ id, name, price, img });
+                }
+                showToast('Added to Wishlist!');
+            } else {
+                wishlist = wishlist.filter(w => w.id !== id);
+                showToast('Removed from Wishlist');
+            }
+            renderWishlist();
+        }
+
+        // --- Cart Functions ---
+        function addToCart(id, name, price, img) {
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ id, name, price, qty: 1, img });
+            }
+            renderCart();
+            showToast('Added to Cart!');
+        }
+
+        function buyNow(id, name, price, img) {
+            cart = [{ id, name, price, qty: 1, img }];
+            renderCart();
+            openCheckout();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            renderCart();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) removeFromCart(id);
+            else renderCart();
+        }
+
+        function getCartTotal() {
+            return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const emptyMsg = document.getElementById('cart-empty-msg');
+            const footer = document.getElementById('cart-footer');
+            const badge = document.getElementById('cart-count-badge');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+            badge.textContent = totalQty;
+
+            container.querySelectorAll('.cart-item-row').forEach(el => el.remove());
+
+            if (cart.length === 0) {
+                emptyMsg.style.display = '';
+                footer.classList.add('hidden');
+            } else {
+                emptyMsg.style.display = 'none';
+                footer.classList.remove('hidden');
+                totalEl.textContent = '$' + getCartTotal().toFixed(2);
+
+                cart.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'cart-item-row flex items-center gap-3 py-3 border-b border-gray-50';
+                    row.innerHTML = `
+                        <div class="w-16 h-20 flex-shrink-0 overflow-hidden bg-gray-50">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs text-shree-dark font-semibold leading-tight truncate">${item.name}</p>
+                            <p class="text-xs text-gray-400 mt-0.5">$${item.price.toFixed(2)} each</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="changeQty('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center border border-gray-200 text-gray-500 hover:border-shree hover:text-shree text-sm font-bold transition">&#8722;</button>
+                                <span class="text-sm font-semibold w-5 text-center">${item.qty}</span>
+                                <button onclick="changeQty('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center border border-gray-200 text-gray-500 hover:border-shree hover:text-shree text-sm font-bold transition">+</button>
+                            </div>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <p class="font-serif text-shree-dark font-bold">$${(item.price * item.qty).toFixed(2)}</p>
+                            <button onclick="removeFromCart('${item.id}')" class="text-xs text-gray-400 hover:text-red-400 transition mt-1 block ml-auto">Remove</button>
+                        </div>`;
+                    container.appendChild(row);
+                });
+            }
+        }
+
+        // --- Cart Sidebar Toggle ---
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('modal-overlay');
+            document.getElementById('checkout-modal').classList.remove('open');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        function closeAll() {
+            document.getElementById('cart-sidebar').classList.remove('open');
+            document.getElementById('checkout-modal').classList.remove('open');
+            document.getElementById('wishlist-sidebar').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('open');
+            document.getElementById('search-overlay').classList.remove('open');
+            document.getElementById('profile-modal').classList.remove('open');
+        }
+
+        // --- Checkout Modal ---
+        function openCheckout() {
+            if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+            document.getElementById('cart-sidebar').classList.remove('open');
+
+            const summaryEl = document.getElementById('checkout-summary');
+            const checkoutTotalEl = document.getElementById('checkout-total');
+            summaryEl.innerHTML = '';
+            cart.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'flex justify-between text-sm text-gray-700';
+                row.innerHTML = `<span class="truncate pr-2">${item.name} x${item.qty}</span><span class="font-medium flex-shrink-0">$${(item.price * item.qty).toFixed(2)}</span>`;
+                summaryEl.appendChild(row);
+            });
+            checkoutTotalEl.textContent = '$' + getCartTotal().toFixed(2);
+            selectPayment('cod');
+
+            document.getElementById('checkout-modal').classList.add('open');
+            document.getElementById('modal-overlay').classList.add('open');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('open');
+        }
+
+        // --- Payment Selection ---
+        function selectPayment(method) {
+            selectedPayment = method;
+            document.getElementById('pay-cod').classList.toggle('selected', method === 'cod');
+            document.getElementById('pay-online').classList.toggle('selected', method === 'online');
+        }
+
+        // --- Place Order (Database REST API Integration) ---
+        async function placeOrder() {
+            const name = document.getElementById('checkout-name').value.trim();
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const email = document.getElementById('checkout-email') ? document.getElementById('checkout-email').value.trim() : '';
+            const address = document.getElementById('checkout-address').value.trim();
+            const city = document.getElementById('checkout-city').value.trim();
+            const state = document.getElementById('checkout-state').value;
+            const pin = document.getElementById('checkout-pin').value.trim();
+
+            if (!name) { showToast('Please enter your full name.'); return; }
+            if (!phone || phone.length < 10) { showToast('Please enter a valid phone number.'); return; }
+            if (!address) { showToast('Please enter your delivery address.'); return; }
+            if (!city) { showToast('Please enter your city.'); return; }
+            if (!state) { showToast('Please select your state.'); return; }
+            if (!pin || pin.length !== 6) { showToast('Please enter a valid 6-digit PIN code.'); return; }
+
+            const generatedOrderId = 'SHR' + Date.now().toString().slice(-8).toUpperCase();
+            const totalAmount = getCartTotal();
+
+            const orderPayload = {
+                orderId: generatedOrderId,
+                name: name,
+                phone: phone,
+                email: email,
+                address: address,
+                city: city,
+                state: state,
+                pin: pin,
+                items: [...cart],
+                total: totalAmount,
+                paymentMethod: selectedPayment,
+                status: 'Confirmed',
+                createdAt: new Date().toISOString()
+            };
+
+            // 1. Sync to LocalStorage DB (Guarantees instant sync even offline/multi-tab)
+            try {
+                let localOrders = JSON.parse(localStorage.getItem('shree_database_orders') || '[]');
+                localOrders.unshift(orderPayload);
+                localStorage.setItem('shree_database_orders', JSON.stringify(localOrders));
+            } catch(e) {}
+
+            // 2. Send to Real Backend REST API + Database
+            try {
+                const res = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderPayload)
+                });
+                const data = await res.json();
+                if (data.success && data.orderId) {
+                    console.log('Order Saved in Backend Database:', data.orderId);
+                }
+            } catch (err) {
+                console.warn('Backend API note:', err.message);
+            }
+
+            const payLabel = selectedPayment === 'cod' ? 'Cash on Delivery (COD)' : 'Online Payment';
+
+            document.getElementById('order-id-display').textContent = generatedOrderId;
+            document.getElementById('order-name-display').textContent = name;
+            document.getElementById('order-address-display').textContent = address + ', ' + city + ', ' + state + ' - ' + pin;
+            document.getElementById('order-payment-display').textContent = payLabel;
+
+            document.getElementById('checkout-modal').classList.remove('open');
+            document.getElementById('order-confirm-modal').classList.add('open');
+            document.getElementById('modal-overlay').classList.add('open');
+
+            cart = [];
+            renderCart();
+            showToast('Order saved to Database!');
+
+            ['checkout-name','checkout-phone','checkout-email','checkout-address','checkout-city','checkout-pin'].forEach(function(id) {
+                document.getElementById(id).value = '';
+            });
+            document.getElementById('checkout-state').value = '';
+        }
+
+        function closeOrderConfirm() {
+            document.getElementById('order-confirm-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('open');
+        }
+
+        // --- Toast Notification ---
+        function showToast(message) {
+            let toast = document.getElementById('shree-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'shree-toast';
+                toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#3E2723;color:white;padding:12px 24px;border-radius:2px;font-size:13px;font-family:Inter,sans-serif;letter-spacing:0.05em;z-index:9999;opacity:0;transition:all 0.3s ease;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,0.25);';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(function() {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(20px)';
+            }, 2500);
+        }
+
+        // Init cart badge on load
+        renderCart();
+
+        // =====================================================
+        //  SEARCH SYSTEM
+        // =====================================================
+
+        // Build product index from DOM
+        const productIndex = [];
+        document.querySelectorAll('.product-card').forEach((card, idx) => {
+            const nameEl = card.querySelector('h3');
+            const priceEl = card.querySelector('p.text-gray-900');
+            const img = card.querySelector('img');
+            const catEl = card.querySelector('p.text-xs');
+            productIndex.push({
+                name: nameEl ? nameEl.textContent.trim() : '',
+                price: priceEl ? priceEl.textContent.trim() : '',
+                img: img ? img.getAttribute('src') : '',
+                category: catEl ? catEl.textContent.trim() : '',
+                card: card
+            });
+        });
+
+        function toggleSearch() {
+            const overlay = document.getElementById('search-overlay');
+            const isOpen = overlay.classList.toggle('open');
+            if (isOpen) {
+                setTimeout(() => document.getElementById('search-input').focus(), 350);
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-input').value = '';
+                document.getElementById('search-hint').style.display = '';
+            }
+            // Close other panels
+            document.getElementById('cart-sidebar').classList.remove('open');
+            document.getElementById('wishlist-sidebar').classList.remove('open');
+            document.getElementById('profile-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('open');
+        }
+
+        // Close search on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('search-overlay').classList.remove('open');
+                document.getElementById('profile-modal').classList.remove('open');
+                document.getElementById('modal-overlay').classList.remove('open');
+            }
+        });
+
+        function runSearch(query) {
+            const resultsEl = document.getElementById('search-results');
+            const hintEl = document.getElementById('search-hint');
+            resultsEl.innerHTML = '';
+            if (!query.trim()) {
+                hintEl.style.display = '';
+                return;
+            }
+            hintEl.style.display = 'none';
+            const q = query.trim().toLowerCase();
+            const matches = productIndex.filter(p =>
+                p.name.toLowerCase().includes(q) ||
+                p.category.toLowerCase().includes(q)
+            );
+            if (matches.length === 0) {
+                resultsEl.innerHTML = '<p class="text-sm text-gray-400 px-3 py-4">No products found for &ldquo;' + query + '&rdquo;</p>';
+                return;
+            }
+            matches.slice(0, 8).forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.innerHTML = `
+                    <div class="w-10 h-12 flex-shrink-0 overflow-hidden bg-gray-50">
+                        <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-shree-dark truncate">${p.name}</p>
+                        <p class="text-xs text-gray-400">${p.category} &bull; ${p.price}</p>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                `;
+                item.onclick = () => {
+                    toggleSearch();
+                    // Scroll to card and highlight it
+                    p.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    p.card.style.outline = '2px solid #5D4037';
+                    setTimeout(() => p.card.style.outline = '', 2000);
+                };
+                resultsEl.appendChild(item);
+            });
+        }
+
+        // =====================================================
+        //  WISHLIST PANEL
+        // =====================================================
+
+        function toggleWishlistPanel() {
+            const sidebar = document.getElementById('wishlist-sidebar');
+            const overlay = document.getElementById('modal-overlay');
+            document.getElementById('cart-sidebar').classList.remove('open');
+            document.getElementById('search-overlay').classList.remove('open');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        function renderWishlist() {
+            const container = document.getElementById('wishlist-items-container');
+            const emptyMsg = document.getElementById('wishlist-empty-msg');
+            const badge = document.getElementById('wishlist-count-badge');
+
+            // Update badge
+            if (wishlist.length > 0) {
+                badge.textContent = wishlist.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            container.querySelectorAll('.wishlist-item-row').forEach(el => el.remove());
+
+            if (wishlist.length === 0) {
+                emptyMsg.style.display = '';
+            } else {
+                emptyMsg.style.display = 'none';
+                wishlist.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'wishlist-item-row flex items-center gap-4 py-4 border-b border-gray-50';
+                    row.innerHTML = `
+                        <div class="w-16 h-20 flex-shrink-0 overflow-hidden bg-gray-50">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs text-shree-dark font-semibold leading-tight truncate">${item.name}</p>
+                            <p class="text-xs text-gray-400 mt-0.5">${item.price}</p>
+                            <button onclick="addToCartFromWishlist('${item.id}', '${item.name.replace(/'/g, "&#39;")}', ${item.price}, '${item.img}')" class="mt-2 text-xs bg-shree-dark text-white px-3 py-1.5 uppercase tracking-wider hover:bg-shree transition">
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button onclick="removeFromWishlistById('${item.id}')" class="text-gray-300 hover:text-red-400 transition flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>`;
+                    container.appendChild(row);
+                });
+            }
+        }
+
+        function addToCartFromWishlist(id, name, price, img) {
+            addToCart(id, name, parseFloat(price), img);
+            toggleWishlistPanel();
+            toggleCart();
+        }
+
+        function removeFromWishlistById(id) {
+            wishlist = wishlist.filter(w => w.id !== id);
+            // Un-wish the card heart button
+            document.querySelectorAll('.product-card').forEach((card, idx) => {
+                if ('prod_' + idx === id) {
+                    const btn = card.querySelector('.btn-wishlist');
+                    if (btn) {
+                        btn.classList.remove('wished');
+                        const icon = btn.querySelector('i');
+                        if (icon) { icon.setAttribute('fill', 'none'); icon.style.color = ''; }
+                    }
+                }
+            });
+            renderWishlist();
+        }
+
+        // =====================================================
+        //  PROFILE / LOGIN SYSTEM
+        // =====================================================
+
+        let currentUser = null;
+
+        function toggleProfile() {
+            const modal = document.getElementById('profile-modal');
+            const overlay = document.getElementById('modal-overlay');
+            const isOpen = modal.classList.toggle('open');
+            overlay.classList.toggle('open', isOpen);
+            document.getElementById('cart-sidebar').classList.remove('open');
+            document.getElementById('wishlist-sidebar').classList.remove('open');
+            document.getElementById('search-overlay').classList.remove('open');
+            // Show correct panel
+            updateProfileView();
+        }
+
+        function updateProfileView() {
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const loggedInView = document.getElementById('form-loggedin');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            if (currentUser) {
+                loginForm.classList.add('hidden');
+                signupForm.classList.add('hidden');
+                loggedInView.classList.remove('hidden');
+                tabLogin.classList.add('hidden');
+                tabSignup.classList.add('hidden');
+                document.getElementById('profile-greeting').textContent = 'Hello, ' + currentUser.name + '!';
+                document.getElementById('profile-email-display').textContent = currentUser.email;
+                if (window.lucide) lucide.createIcons();
+            } else {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                loggedInView.classList.add('hidden');
+                tabLogin.classList.remove('hidden');
+                tabSignup.classList.remove('hidden');
+            }
+        }
+
+        function switchProfileTab(tab) {
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.classList.replace('text-gray-400', 'text-shree-dark');
+                tabLogin.classList.replace('border-transparent', 'border-shree-dark');
+                tabSignup.classList.replace('text-shree-dark', 'text-gray-400');
+                tabSignup.classList.replace('border-shree-dark', 'border-transparent');
+            } else {
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabSignup.classList.replace('text-gray-400', 'text-shree-dark');
+                tabSignup.classList.replace('border-transparent', 'border-shree-dark');
+                tabLogin.classList.replace('text-shree-dark', 'text-gray-400');
+                tabLogin.classList.replace('border-shree-dark', 'border-transparent');
+            }
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            if (!email) { showToast('Please enter your email.'); return; }
+            if (!password) { showToast('Please enter your password.'); return; }
+            
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (data.success && data.user) {
+                    currentUser = data.user;
+                    showToast('Welcome back, ' + data.user.name + '!');
+                    updateProfileView();
+                } else {
+                    showToast(data.message || 'Invalid credentials');
+                }
+            } catch (err) {
+                // Fallback client simulation if offline
+                const name = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+                currentUser = { email, name };
+                showToast('Welcome back, ' + name + '!');
+                updateProfileView();
+            }
+        }
+
+        async function handleSignup() {
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            if (!name) { showToast('Please enter your name.'); return; }
+            if (!email) { showToast('Please enter your email.'); return; }
+            if (!password || password.length < 6) { showToast('Password must be at least 6 characters.'); return; }
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+                if (data.success && data.user) {
+                    currentUser = data.user;
+                    showToast('Account created in Database! Welcome, ' + data.user.name + '!');
+                    updateProfileView();
+                } else {
+                    showToast(data.message || 'Signup failed');
+                }
+            } catch (err) {
+                currentUser = { email, name };
+                showToast('Account created! Welcome, ' + name + '!');
+                updateProfileView();
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            showToast('You have been signed out.');
+            toggleProfile();
+        }
+
+        // =====================================================
+        //  PRODUCT QUICK-VIEW MODAL
+        // =====================================================
+
+        // Product descriptions by name keywords
+        const productDescriptions = {
+            'saree': 'Exquisitely handcrafted with premium quality fabric. This saree features intricate embroidery and a rich drape, making it perfect for festive occasions, weddings, and celebrations. Each piece is a work of art that celebrates India\'s weaving heritage.',
+            'kurti': 'Beautifully designed with intricate detailing and premium cotton-blend fabric. This kurti offers a perfect blend of traditional aesthetics and modern comfort, ideal for casual outings, office wear, and festive occasions.',
+            'dupatta': 'Artisan-crafted with fine silk and traditional motifs. This dupatta adds an elegant finishing touch to any ethnic ensemble with its lightweight drape and stunning color palette.',
+            'jeans': 'Premium quality denim with a flattering cut and superior stretch fabric. Designed for the modern woman who values both style and comfort, these jeans pair perfectly with any top from casual to semi-formal.',
+            'tshirt': 'Crafted from soft, 100% cotton with a relaxed oversized fit. Features a unique graphic print that blends streetwear aesthetics with artistic expression — perfect for everyday wear.',
+            'tee': 'Crafted from soft, 100% cotton with a relaxed oversized fit. Features a unique graphic print that blends streetwear aesthetics with artistic expression — perfect for everyday wear.',
+        };
+
+        // Category-based size options
+        const categorySizes = {
+            'sarees': ['Free Size'],
+            'kurtis': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+            'dupattas': ['Free Size'],
+            'jeans': ['24', '26', '28', '30', '32', '34'],
+            'tshirts': ['XS', 'S', 'M', 'L', 'XL'],
+        };
+
+        let pmCurrentProduct = null;
+        let pmQty = 1;
+        let pmSelectedSize = null;
+
+        function openProductModal(id, name, price, img, card) {
+            pmCurrentProduct = { id, name, price, img };
+            pmQty = 1;
+            pmSelectedSize = null;
+
+            // Set image
+            document.getElementById('pm-img').src = img;
+            document.getElementById('pm-img').alt = name;
+
+            // Set category from card's data attribute
+            const cat = card.getAttribute('data-product-category') || '';
+            const catLabel = card.querySelector('p.text-xs') ? card.querySelector('p.text-xs').textContent.trim() : cat;
+            document.getElementById('pm-category').textContent = catLabel;
+
+            // Set name
+            document.getElementById('pm-name').textContent = name;
+
+            // Price with fake discount
+            const originalPrice = (price * 1.25).toFixed(2);
+            const discount = '20% OFF';
+            document.getElementById('pm-price').textContent = '$' + price.toFixed(2);
+            document.getElementById('pm-original-price').textContent = '$' + originalPrice;
+            document.getElementById('pm-discount').textContent = discount;
+
+            // Description
+            const nameLower = name.toLowerCase();
+            let desc = 'A premium quality product from Shree\'s exclusive collection, handpicked for quality, elegance, and contemporary style. Perfect for every occasion.';
+            for (const key in productDescriptions) {
+                if (nameLower.includes(key)) { desc = productDescriptions[key]; break; }
+            }
+            document.getElementById('pm-desc').textContent = desc;
+
+            // Sizes
+            const sizesContainer = document.getElementById('pm-sizes');
+            const sizeSection = document.getElementById('pm-size-section');
+            sizesContainer.innerHTML = '';
+            const sizes = categorySizes[cat] || ['S', 'M', 'L', 'XL'];
+            sizes.forEach((sz, i) => {
+                const chip = document.createElement('button');
+                chip.className = 'size-chip' + (i === 0 ? ' active' : '');
+                chip.textContent = sz;
+                if (i === 0) pmSelectedSize = sz;
+                chip.addEventListener('click', () => {
+                    sizesContainer.querySelectorAll('.size-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    pmSelectedSize = sz;
+                });
+                sizesContainer.appendChild(chip);
+            });
+            sizeSection.style.display = '';
+
+            // Badge
+            const badgeEl = document.getElementById('pm-badge');
+            const badgeSrc = card.querySelector('.absolute.top-4.left-4 span');
+            if (badgeSrc) {
+                badgeEl.textContent = badgeSrc.textContent;
+                badgeEl.classList.remove('hidden');
+            } else {
+                badgeEl.classList.add('hidden');
+            }
+
+            // Quantity
+            document.getElementById('pm-qty').textContent = pmQty;
+
+            // Wire Add to Cart button
+            document.getElementById('pm-add-cart-btn').onclick = () => {
+                for (let i = 0; i < pmQty; i++) addToCart(id, name, price, img);
+                closeProductModal();
+                toggleCart();
+            };
+
+            // Wire Buy Now button
+            document.getElementById('pm-buy-btn').onclick = () => {
+                cart = [];
+                for (let i = 0; i < pmQty; i++) cart.push({ id, name, price, qty: 1, img });
+                // Merge duplicates
+                const merged = [];
+                cart.forEach(item => {
+                    const ex = merged.find(m => m.id === item.id);
+                    if (ex) ex.qty += 1; else merged.push({...item});
+                });
+                cart = merged;
+                renderCart();
+                closeProductModal();
+                openCheckout();
+            };
+
+            // Open modal
+            document.getElementById('product-modal').classList.add('open');
+            document.getElementById('modal-overlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function pmChangeQty(delta) {
+            pmQty = Math.max(1, pmQty + delta);
+            document.getElementById('pm-qty').textContent = pmQty;
+        }
+
+        // Close product modal on overlay click
+        document.getElementById('modal-overlay').addEventListener('click', function() {
+            closeProductModal();
+        });
+
+        // Also update closeAll to close product modal
+        const _origCloseAll = closeAll;
+        closeAll = function() {
+            _origCloseAll();
+            closeProductModal();
+        };
+
+        // =====================================================
+        //  LEFT SIDEBAR FILTER SYSTEM
+        // =====================================================
+
+        let activeSelectedColors = [];
+
+        function updatePriceSlider(val) {
+            document.getElementById('price-slider-display').textContent = '$' + val;
+        }
+
+        function toggleAccordion(accId) {
+            const acc = document.getElementById(accId);
+            const icon = document.getElementById(accId + '-icon');
+            if (acc) {
+                acc.classList.toggle('hidden');
+                if (icon) {
+                    icon.textContent = acc.classList.contains('hidden') ? '+' : '−';
+                }
+            }
+        }
+
+        function toggleColorFilter(el, color) {
+            el.classList.toggle('selected');
+            if (el.classList.contains('selected')) {
+                if (!activeSelectedColors.includes(color)) activeSelectedColors.push(color);
+            } else {
+                activeSelectedColors = activeSelectedColors.filter(c => c !== color);
+            }
+            applyCatalogFilters();
+        }
+
+        function handleCatCheckbox(checkbox) {
+            const val = checkbox.value;
+            const checkboxes = document.querySelectorAll('.cat-checkbox');
+            if (val === 'all' && checkbox.checked) {
+                checkboxes.forEach(cb => { if (cb.value !== 'all') cb.checked = false; });
+            } else if (checkbox.checked) {
+                const allCb = document.querySelector('.cat-checkbox[value="all"]');
+                if (allCb) allCb.checked = false;
+            }
+            // Sync top category pills
+            const anyChecked = Array.from(checkboxes).find(cb => cb.checked && cb.value !== 'all');
+            const targetCat = anyChecked ? anyChecked.value : 'all';
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                const isTarget = tab.getAttribute('data-category') === targetCat;
+                tab.classList.toggle('active', isTarget);
+                tab.classList.toggle('bg-shree-dark', isTarget);
+                tab.classList.toggle('text-white', isTarget);
+                tab.classList.toggle('bg-white', !isTarget);
+                tab.classList.toggle('text-shree-dark', !isTarget);
+            });
+            applyCatalogFilters();
+        }
+
+        // Sync category tabs (top bar) with filter
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const cat = tab.getAttribute('data-category');
+                document.querySelectorAll('.cat-checkbox').forEach(cb => {
+                    cb.checked = (cb.value === cat);
+                });
+                if (cat === 'all') {
+                    const allCb = document.querySelector('.cat-checkbox[value="all"]');
+                    if (allCb) allCb.checked = true;
+                }
+                applyCatalogFilters();
+            });
+        });
+
+        function applyCatalogFilters() {
+            const maxPrice = parseFloat(document.getElementById('price-range-slider').value) || 300;
+            const selectedCatCbs = Array.from(document.querySelectorAll('.cat-checkbox:checked')).map(cb => cb.value);
+            const isAllCat = selectedCatCbs.includes('all') || selectedCatCbs.length === 0;
+
+            const grid = document.getElementById('product-grid');
+            const cards = Array.from(grid.querySelectorAll('.product-card'));
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-product-category');
+                const cardColor = card.getAttribute('data-product-color');
+                const cardPrice = parseFloat(card.getAttribute('data-product-price')) || 0;
+
+                const matchesCat = isAllCat || selectedCatCbs.includes(cardCat);
+                const matchesColor = activeSelectedColors.length === 0 || activeSelectedColors.includes(cardColor);
+                const matchesPrice = cardPrice <= maxPrice;
+
+                if (matchesCat && matchesColor && matchesPrice) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Sorting
+            const sortVal = document.getElementById('sort-by-select').value;
+            cards.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-product-price')) || 0;
+                const priceB = parseFloat(b.getAttribute('data-product-price')) || 0;
+                const nameA = a.querySelector('h3') ? a.querySelector('h3').textContent.trim() : '';
+                const nameB = b.querySelector('h3') ? b.querySelector('h3').textContent.trim() : '';
+
+                if (sortVal === 'price-low') return priceA - priceB;
+                if (sortVal === 'price-high') return priceB - priceA;
+                if (sortVal === 'name') return nameA.localeCompare(nameB);
+                return 0; // recommended / default DOM order
+            });
+
+            cards.forEach(card => grid.appendChild(card));
+
+            // Update product count display
+            const countDisplay = document.getElementById('catalog-count-display');
+            if (countDisplay) {
+                countDisplay.textContent = `Showing ${visibleCount} Product${visibleCount === 1 ? '' : 's'}`;
+            }
+
+            // Show empty state if 0 visible
+            const emptyState = document.getElementById('category-empty-state');
+            if (emptyState) {
+                emptyState.classList.toggle('hidden', visibleCount > 0);
+            }
+        }
+
+        function resetCatalogFilters() {
+            document.getElementById('price-range-slider').value = 300;
+            document.getElementById('price-slider-display').textContent = '$300';
+            activeSelectedColors = [];
+            document.querySelectorAll('.filter-color-dot').forEach(dot => dot.classList.remove('selected'));
+            document.querySelectorAll('.cat-checkbox').forEach(cb => cb.checked = (cb.value === 'all'));
+            document.getElementById('sort-by-select').value = 'recommended';
+            
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                const isAll = tab.getAttribute('data-category') === 'all';
+                tab.classList.toggle('active', isAll);
+                tab.classList.toggle('bg-shree-dark', isAll);
+                tab.classList.toggle('text-white', isAll);
+                tab.classList.toggle('bg-white', !isAll);
+                tab.classList.toggle('text-shree-dark', !isAll);
+            });
+
+            applyCatalogFilters();
+            showToast('Filters cleared');
+        }
+
+        function toggleMobileFilter() {
+            const sidebar = document.getElementById('filter-sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('block');
+            }
+        }
+
+    </script>
+</body>
+</html>
