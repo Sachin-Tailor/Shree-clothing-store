@@ -408,6 +408,14 @@
             accent-color: #5D4037;
             cursor: pointer;
         }
+
+        /* Mobile Sidebar Drawer Styling */
+        @media (max-width: 1023px) {
+            .mobile-sidebar-active {
+                transform: translateX(0) !important;
+                display: block !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-shree-bg text-gray-800 font-sans antialiased overflow-x-hidden">
@@ -418,7 +426,7 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Mobile Menu Button -->
                 <div class="flex items-center md:hidden">
-                    <button type="button" class="text-shree-dark hover:text-shree transition">
+                    <button type="button" onclick="toggleMobileMenu()" class="text-shree-dark hover:text-shree transition active:scale-95">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                 </div>
@@ -466,6 +474,30 @@
             </div>
         </div>
     </header>
+
+    <!-- MOBILE MENU DRAWER -->
+    <div id="mobile-menu" class="fixed inset-y-0 left-0 w-72 bg-white z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl flex flex-col md:hidden border-r border-shree-light/20">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-shree-bg">
+            <span class="font-serif text-2xl font-bold tracking-widest text-shree-dark">SHREE</span>
+            <button onclick="toggleMobileMenu()" class="text-gray-400 hover:text-shree-dark transition active:scale-90">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <nav class="flex flex-col p-6 space-y-5">
+            <a href="#home" onclick="toggleMobileMenu()" class="text-base uppercase tracking-wider text-shree-dark hover:text-shree font-semibold transition flex items-center gap-2">
+                <i data-lucide="home" class="w-4 h-4 text-shree"></i> Home
+            </a>
+            <a href="#collections" onclick="toggleMobileMenu()" class="text-base uppercase tracking-wider text-gray-500 hover:text-shree font-semibold transition flex items-center gap-2">
+                <i data-lucide="layers" class="w-4 h-4 text-shree"></i> Collections
+            </a>
+            <a href="#about" onclick="toggleMobileMenu()" class="text-base uppercase tracking-wider text-gray-500 hover:text-shree font-semibold transition flex items-center gap-2">
+                <i data-lucide="info" class="w-4 h-4 text-shree"></i> About Us
+            </a>
+            <a href="/admin.html" onclick="toggleMobileMenu()" class="text-base uppercase tracking-wider text-amber-600 hover:text-shree font-semibold transition flex items-center gap-2 border-t border-gray-100 pt-4">
+                <i data-lucide="shield-check" class="w-4 h-4"></i> Store Admin
+            </a>
+        </nav>
+    </div>
 
     <!-- SEARCH OVERLAY -->
     <div id="search-overlay" class="search-overlay">
@@ -905,12 +937,17 @@
             <div class="flex flex-col lg:flex-row gap-8 items-start">
                 
                 <!-- LEFT FILTER SIDEBAR -->
-                <aside id="filter-sidebar" class="w-full lg:w-64 flex-shrink-0 bg-white p-6 rounded border border-shree-light/20 shadow-sm sticky top-24 z-20">
+                <aside id="filter-sidebar" class="fixed lg:static inset-y-0 left-0 w-80 lg:w-64 h-full lg:h-auto bg-white p-6 border-r lg:border border-shree-light/20 shadow-2xl lg:shadow-none z-50 lg:z-0 overflow-y-auto lg:overflow-visible transition-all duration-300 transform -translate-x-full lg:translate-x-0 hidden lg:block">
                     <div class="flex justify-between items-center pb-4 mb-4 border-b border-shree-light/20">
                         <h3 class="font-serif text-lg font-bold text-shree-dark uppercase tracking-wider flex items-center gap-2">
                             <i data-lucide="sliders" class="w-4 h-4 text-shree"></i> Filters
                         </h3>
-                        <button onclick="resetCatalogFilters()" class="text-xs text-shree hover:underline font-medium">Clear All</button>
+                        <div class="flex items-center gap-3">
+                            <button onclick="resetCatalogFilters()" class="text-xs text-shree hover:underline font-medium">Clear All</button>
+                            <button onclick="toggleMobileFilter()" class="lg:hidden text-gray-400 hover:text-shree-dark transition active:scale-90" title="Close Filters">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- PRICE FILTER -->
@@ -2572,16 +2609,44 @@
             document.getElementById('pm-qty').textContent = pmQty;
         }
 
-        // Close product modal on overlay click
+        // Close overlays and menus on overlay click
         document.getElementById('modal-overlay').addEventListener('click', function() {
             closeProductModal();
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+            if (menu && !menu.classList.contains('-translate-x-full')) {
+                menu.classList.add('-translate-x-full');
+            }
+            // Close mobile filters if open
+            const sidebar = document.getElementById('filter-sidebar');
+            if (sidebar && sidebar.classList.contains('mobile-sidebar-active')) {
+                sidebar.classList.remove('mobile-sidebar-active');
+                sidebar.classList.add('-translate-x-full');
+                setTimeout(() => {
+                    sidebar.classList.add('hidden');
+                }, 300);
+            }
+            document.body.style.overflow = '';
         });
 
-        // Also update closeAll to close product modal
+        // Also update closeAll to close product modal & mobile drawers
         const _origCloseAll = closeAll;
         closeAll = function() {
             _origCloseAll();
             closeProductModal();
+            const menu = document.getElementById('mobile-menu');
+            if (menu && !menu.classList.contains('-translate-x-full')) {
+                menu.classList.add('-translate-x-full');
+            }
+            const sidebar = document.getElementById('filter-sidebar');
+            if (sidebar && sidebar.classList.contains('mobile-sidebar-active')) {
+                sidebar.classList.remove('mobile-sidebar-active');
+                sidebar.classList.add('-translate-x-full');
+                setTimeout(() => {
+                    sidebar.classList.add('hidden');
+                }, 300);
+            }
+            document.body.style.overflow = '';
         };
 
         // =====================================================
@@ -2731,9 +2796,43 @@
 
         function toggleMobileFilter() {
             const sidebar = document.getElementById('filter-sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('hidden');
-                sidebar.classList.toggle('block');
+            const overlay = document.getElementById('modal-overlay');
+            if (sidebar && overlay) {
+                const isActive = sidebar.classList.contains('mobile-sidebar-active');
+                if (isActive) {
+                    sidebar.classList.remove('mobile-sidebar-active');
+                    sidebar.classList.add('-translate-x-full');
+                    setTimeout(() => {
+                        sidebar.classList.add('hidden');
+                    }, 300);
+                    overlay.classList.remove('open');
+                    document.body.style.overflow = '';
+                } else {
+                    sidebar.classList.remove('hidden');
+                    // Force a reflow to trigger transition
+                    void sidebar.offsetHeight;
+                    sidebar.classList.add('mobile-sidebar-active');
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('modal-overlay');
+            if (menu && overlay) {
+                const isOpen = !menu.classList.contains('-translate-x-full');
+                if (isOpen) {
+                    menu.classList.add('-translate-x-full');
+                    overlay.classList.remove('open');
+                    document.body.style.overflow = '';
+                } else {
+                    menu.classList.remove('-translate-x-full');
+                    overlay.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                }
             }
         }
 
