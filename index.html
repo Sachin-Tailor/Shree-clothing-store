@@ -50,6 +50,10 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Firebase SDK Compat (Loads Firebase App and Firestore database client) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <style>
         /* Custom Scroll Animations */
         .reveal {
@@ -1782,6 +1786,35 @@
 
     <!-- Scripts -->
     <script>
+        // =====================================================
+        //  FIREBASE CONFIGURATION (Replace with your actual keys)
+        // =====================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhv0D0dI1ipREAdce_t2Dc042p84XkwaE",
+            authDomain: "shree-ecommerce.firebaseapp.com",
+            projectId: "shree-ecommerce",
+            storageBucket: "shree-ecommerce.firebasestorage.app",
+            messagingSenderId: "573115809565",
+            appId: "1:573115809565:web:fe18f6ab461ed5a510ebf4",
+            measurementId: "G-KME1T45M72"
+        };
+
+        // Initialize Firebase if configured
+        let db = null;
+        const isFirebaseConfigured = firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY";
+        
+        if (isFirebaseConfigured) {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                console.log("Firebase Firestore Initialized Successfully!");
+            } catch (err) {
+                console.error("Firebase initialization failed:", err.message);
+            }
+        } else {
+            console.warn("Firebase is not configured. Orders will be saved only in LocalStorage.");
+        }
+
         // Initialize Lucide Icons
         lucide.createIcons();
 
@@ -2137,6 +2170,16 @@
                 }
             } catch (err) {
                 console.warn('Backend API note:', err.message);
+            }
+
+            // 3. Send to Firebase Firestore Database
+            if (db) {
+                try {
+                    await db.collection('orders').doc(generatedOrderId).set(orderPayload);
+                    console.log('Order Saved in Firebase Firestore:', generatedOrderId);
+                } catch (firebaseErr) {
+                    console.error('Firebase Firestore Save Error:', firebaseErr.message);
+                }
             }
 
             const payLabel = selectedPayment === 'cod' ? 'Cash on Delivery (COD)' : 'Online Payment';

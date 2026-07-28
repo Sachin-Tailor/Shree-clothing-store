@@ -6,6 +6,10 @@
     <title>Shree Admin Dashboard | Protected Order Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Firebase SDK Compat -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -197,6 +201,35 @@
     </div>
 
     <script>
+        // =====================================================
+        //  FIREBASE CONFIGURATION (Replace with your actual keys)
+        // =====================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhv0D0dI1ipREAdce_t2Dc042p84XkwaE",
+            authDomain: "shree-ecommerce.firebaseapp.com",
+            projectId: "shree-ecommerce",
+            storageBucket: "shree-ecommerce.firebasestorage.app",
+            messagingSenderId: "573115809565",
+            appId: "1:573115809565:web:fe18f6ab461ed5a510ebf4",
+            measurementId: "G-KME1T45M72"
+        };
+
+        // Initialize Firebase if configured
+        let db = null;
+        const isFirebaseConfigured = firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY";
+        
+        if (isFirebaseConfigured) {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                console.log("Firebase Firestore Initialized in Admin Successfully!");
+            } catch (err) {
+                console.error("Firebase initialization failed in Admin:", err.message);
+            }
+        } else {
+            console.warn("Firebase is not configured in Admin. Reading only from API / LocalStorage.");
+        }
+
         let allOrders = [];
 
         // Admin Security Credentials
@@ -277,6 +310,8 @@
 
             let apiOrders = [];
             let localOrders = [];
+            let firebaseOrders = [];
+
             try {
                 localOrders = JSON.parse(localStorage.getItem('shree_database_orders') || '[]');
             } catch(e) {}
@@ -289,10 +324,24 @@
                 }
             } catch (e) {}
 
-            // Merge API and LocalStorage orders by orderId
+            if (db) {
+                try {
+                    const snapshot = await db.collection('orders').get();
+                    snapshot.forEach(doc => {
+                        if (doc.exists) {
+                            firebaseOrders.push(doc.data());
+                        }
+                    });
+                } catch (e) {
+                    console.error("Firebase fetch note:", e.message);
+                }
+            }
+
+            // Merge Firebase, API and LocalStorage orders by orderId
             const mergedMap = new Map();
             localOrders.forEach(o => { if (o && o.orderId) mergedMap.set(o.orderId, o); });
             apiOrders.forEach(o => { if (o && o.orderId) mergedMap.set(o.orderId, o); });
+            firebaseOrders.forEach(o => { if (o && o.orderId) mergedMap.set(o.orderId, o); });
 
             allOrders = Array.from(mergedMap.values());
             // Sort by date newest first
@@ -420,6 +469,15 @@
                     body: JSON.stringify({ status: newStatus })
                 });
             } catch (e) {}
+
+            if (db) {
+                try {
+                    await db.collection('orders').doc(orderId).update({ status: newStatus });
+                    console.log('Order status updated in Firebase Firestore:', orderId, newStatus);
+                } catch (e) {
+                    console.error("Firebase status update failed:", e.message);
+                }
+            }
 
             fetchOrders();
         }
