@@ -834,32 +834,33 @@
         </div>
     </div>
 
-    <!-- HERO SECTION -->
-    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden pt-20 bg-black">
-        <!-- Background Elements -->
-        <div class="absolute inset-0 w-full h-full">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60 z-10"></div>
-            <img src="public/hero_bg.jpg" alt="Shree Traditional Elegance" class="w-full h-full object-cover object-center opacity-95 transition-all duration-700">
-        </div>
+    <!-- HERO SECTION (CINEMATIC REALISTIC VIDEO BANNER) -->
+    <section id="home" class="relative w-full aspect-video sm:aspect-auto sm:h-screen min-h-[380px] flex items-center justify-center overflow-hidden bg-[#080808] pt-16 md:pt-20">
+        <!-- 4K Ultra HD Realistic Video Player with Hardware-Accelerated Sharpness -->
+        <video 
+            id="heroVideo"
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            webkit-playsinline
+            preload="auto"
+            poster="public/hero_bg.jpg" 
+            class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+            style="filter: contrast(1.06) saturate(1.08) brightness(1.02); -webkit-filter: contrast(1.06) saturate(1.08) brightness(1.02); image-rendering: -webkit-optimize-contrast; transform: translateZ(0);"
+        >
+            <source src="public/hero_video.mp4" type="video/mp4">
+            <source src="/public/hero_video.mp4" type="video/mp4">
+            <img src="public/hero_bg.jpg" alt="Shree Traditional Elegance" class="w-full h-full object-cover object-center">
+        </video>
 
-        <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
-            <p class="text-sm md:text-base uppercase tracking-[0.3em] text-amber-200 font-semibold mb-4 animate-fade-in-up drop-shadow-md" style="animation-delay: 0.2s;">Welcome to</p>
-            
-            <!-- Animated Brand Name -->
-            <h1 class="shree-animate font-serif text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-6 tracking-tight drop-shadow-2xl">
-                <span>S</span><span>H</span><span>R</span><span>E</span><span>E</span>
-            </h1>
-            
-            <p class="text-lg md:text-2xl text-stone-100 font-light mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up drop-shadow-md" style="animation-delay: 0.8s;">
-                Where timeless tradition seamlessly weaves into modern elegance. Discover our curated collection of artisanal masterpieces.
-            </p>
-            <div class="animate-fade-in-up" style="animation-delay: 1s;">
-                <a href="#collections" class="inline-flex items-center px-8 py-4 bg-[#8D3A3A] text-white font-medium tracking-wider uppercase text-sm hover:bg-[#6E2C2C] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 rounded-sm">
-                    Explore Collection
-                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
-                </a>
-            </div>
-        </div>
+        <!-- Subtle Gradient Vignette for Seamless Blending with Navigation & Content -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30 pointer-events-none z-10"></div>
+
+        <!-- Interactive Hotspot: Clicking anywhere on the Hero Video smoothly navigates to Collections -->
+        <a href="#collections" class="absolute inset-0 z-20 cursor-pointer" aria-label="Explore Collection">
+            <span class="sr-only">Explore Collection</span>
+        </a>
     </section>
 
     <!-- CATEGORIES (Modern Grid) -->
@@ -2878,6 +2879,31 @@
                 }
             }
         }
+
+        // Ensure Hero Video Autoplays on all Mobile & Desktop browsers
+        (function() {
+            const vid = document.getElementById('heroVideo');
+            if (vid) {
+                vid.muted = true;
+                const tryPlay = function() {
+                    const p = vid.play();
+                    if (p !== undefined) {
+                        p.catch(function() {
+                            const onUserInteract = function() {
+                                vid.play();
+                                document.removeEventListener('touchstart', onUserInteract);
+                                document.removeEventListener('click', onUserInteract);
+                                document.removeEventListener('scroll', onUserInteract);
+                            };
+                            document.addEventListener('touchstart', onUserInteract, { once: true, passive: true });
+                            document.addEventListener('click', onUserInteract, { once: true, passive: true });
+                            document.addEventListener('scroll', onUserInteract, { once: true, passive: true });
+                        });
+                    }
+                };
+                tryPlay();
+            }
+        })();
 
     </script>
 </body>
