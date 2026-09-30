@@ -853,23 +853,39 @@
             <img src="public/hero_bg.jpg" alt="Shree Traditional Elegance" class="w-full h-full object-cover object-center">
         </video>
 
-        <!-- Subtle Top Vignette for Nav Contrast without dimming the video -->
-        <div class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-black/60 to-transparent pointer-events-none z-10"></div>
+        <!-- Soft Dark Vignette (smoothly deepens when video freezes for text legibility) -->
+        <div id="heroVignette" class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black/60 pointer-events-none z-10 transition-opacity duration-1000 opacity-0"></div>
 
-        <!-- Interactive Explore Collection CTA (Enables when video reaches final frame) -->
-        <div id="heroCtaContainer" class="absolute bottom-8 sm:bottom-12 md:bottom-20 left-1/2 -translate-x-1/2 z-30 transition-all duration-700 opacity-0 pointer-events-none transform translate-y-4">
-            <a 
-                href="#collections" 
-                id="heroExploreBtn"
-                class="inline-flex items-center gap-2.5 px-7 py-3 md:px-10 md:py-4 bg-[#8D3A3A] hover:bg-[#6E2C2C] active:scale-95 text-white font-medium tracking-[0.2em] uppercase text-xs md:text-sm rounded-sm shadow-[0_10px_35px_rgba(141,58,58,0.7)] hover:shadow-[0_15px_45px_rgba(141,58,58,0.95)] border border-amber-200/40 transition-all duration-300 group cursor-pointer"
-            >
-                <span>Explore Collection</span>
-                <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"></i>
-            </a>
+        <!-- Elegant Top Shadow for Header readability during video playback -->
+        <div class="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black/50 to-transparent pointer-events-none z-10"></div>
+
+        <!-- Main Hero Text Overlay & Single Explore Collection CTA (Appears when video finishes) -->
+        <div id="heroTextOverlay" class="relative z-20 text-center px-4 max-w-4xl mx-auto transition-all duration-1000 opacity-0 pointer-events-none transform translate-y-6">
+            <p class="text-xs md:text-sm uppercase tracking-[0.3em] text-amber-200 font-semibold mb-3 drop-shadow-md">Welcome to</p>
+            
+            <!-- Animated Brand Name -->
+            <h1 class="shree-animate font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-4 sm:mb-6 tracking-tight drop-shadow-2xl">
+                <span>S</span><span>H</span><span>R</span><span>E</span><span>E</span>
+            </h1>
+            
+            <p class="text-sm sm:text-lg md:text-xl text-stone-100 font-light mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+                Where timeless tradition seamlessly weaves into modern elegance. Discover our curated collection of artisanal masterpieces.
+            </p>
+            
+            <div>
+                <a 
+                    href="#collections" 
+                    id="heroExploreBtn"
+                    class="inline-flex items-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 bg-[#8D3A3A] hover:bg-[#6E2C2C] active:scale-95 text-white font-medium tracking-[0.18em] uppercase text-xs sm:text-sm rounded-sm shadow-[0_10px_35px_rgba(141,58,58,0.7)] hover:shadow-[0_15px_45px_rgba(141,58,58,0.95)] border border-amber-200/30 transition-all duration-300 group cursor-pointer"
+                >
+                    <span>Explore Collection</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"></i>
+                </a>
+            </div>
         </div>
 
-        <!-- Interactive Hotspot: Clicking anywhere on the Hero Video smoothly navigates to Collections -->
-        <a href="#collections" class="absolute inset-0 z-20 cursor-pointer" aria-label="Explore Collection">
+        <!-- Background Click Area: Clicking anywhere on the video also takes visitor to collections -->
+        <a href="#collections" class="absolute inset-0 z-10 cursor-pointer" aria-label="Explore Collection">
             <span class="sr-only">Explore Collection</span>
         </a>
     </section>
@@ -2891,42 +2907,46 @@
             }
         }
 
-        // Hero Video Controller: Freeze at final frame & activate Explore Collection button
+        // Hero Video Controller: Freeze cleanly on royal models pose & display luxury typography
         (function() {
             const vid = document.getElementById('heroVideo');
-            const ctaContainer = document.getElementById('heroCtaContainer');
+            const textOverlay = document.getElementById('heroTextOverlay');
+            const vignette = document.getElementById('heroVignette');
             if (!vid) return;
 
             vid.muted = true;
 
-            function enableExploreButton() {
-                if (ctaContainer && ctaContainer.classList.contains('opacity-0')) {
-                    ctaContainer.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
-                    ctaContainer.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            function showHeroTextOverlay() {
+                if (textOverlay && textOverlay.classList.contains('opacity-0')) {
+                    textOverlay.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-6');
+                    textOverlay.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+                    if (vignette) {
+                        vignette.classList.remove('opacity-0');
+                        vignette.classList.add('opacity-100');
+                    }
                     if (window.lucide && typeof window.lucide.createIcons === 'function') {
                         window.lucide.createIcons();
                     }
                 }
             }
 
-            // Pause exactly on final frame (do not loop back)
+            // Stop cleanly at 7.1s (when models complete grand spin and pose, BEFORE any AI text appears)
+            const CLEAN_FREEZE_TIME = 7.1;
+
+            vid.addEventListener('timeupdate', function() {
+                if (vid.currentTime >= CLEAN_FREEZE_TIME) {
+                    vid.pause();
+                    vid.currentTime = CLEAN_FREEZE_TIME;
+                    showHeroTextOverlay();
+                }
+            });
+
             vid.addEventListener('ended', function() {
                 vid.pause();
-                enableExploreButton();
+                showHeroTextOverlay();
             });
 
-            // Listen for timeupdate when brand name and button appear
-            vid.addEventListener('timeupdate', function() {
-                if (vid.duration && (vid.currentTime >= vid.duration - 1.8 || vid.currentTime >= 7.8)) {
-                    enableExploreButton();
-                }
-                // Lock on final frame
-                if (vid.duration && vid.currentTime >= vid.duration - 0.12) {
-                    vid.pause();
-                }
-            });
-
-            // Autoplay with touch/click fallback
+            // Autoplay with touch/click fallback on mobile browsers
             const tryPlay = function() {
                 const p = vid.play();
                 if (p !== undefined) {
