@@ -835,27 +835,38 @@
     </div>
 
     <!-- HERO SECTION (CINEMATIC REALISTIC VIDEO BANNER) -->
-    <section id="home" class="relative w-full aspect-video sm:aspect-auto sm:h-screen min-h-[380px] flex items-center justify-center overflow-hidden bg-[#080808] pt-16 md:pt-20">
-        <!-- 4K Ultra HD Realistic Video Player with Hardware-Accelerated Sharpness -->
+    <section id="home" class="relative w-full aspect-video sm:aspect-auto sm:h-screen min-h-[380px] flex items-center justify-center overflow-hidden bg-[#050505] pt-16 md:pt-20">
+        <!-- Ultra Realistic Video Player with Hardware-Accelerated Sharpness -->
         <video 
             id="heroVideo"
             autoplay 
             muted 
-            loop 
             playsinline 
             webkit-playsinline
             preload="auto"
             poster="public/hero_bg.jpg" 
             class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
-            style="filter: contrast(1.06) saturate(1.08) brightness(1.02); -webkit-filter: contrast(1.06) saturate(1.08) brightness(1.02); image-rendering: -webkit-optimize-contrast; transform: translateZ(0);"
+            style="filter: contrast(1.08) saturate(1.12) brightness(1.03); -webkit-filter: contrast(1.08) saturate(1.12) brightness(1.03); image-rendering: -webkit-optimize-contrast; transform: translate3d(0, 0, 0); will-change: transform;"
         >
             <source src="public/hero_video.mp4" type="video/mp4">
             <source src="/public/hero_video.mp4" type="video/mp4">
             <img src="public/hero_bg.jpg" alt="Shree Traditional Elegance" class="w-full h-full object-cover object-center">
         </video>
 
-        <!-- Subtle Gradient Vignette for Seamless Blending with Navigation & Content -->
-        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30 pointer-events-none z-10"></div>
+        <!-- Subtle Top Vignette for Nav Contrast without dimming the video -->
+        <div class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-black/60 to-transparent pointer-events-none z-10"></div>
+
+        <!-- Interactive Explore Collection CTA (Enables when video reaches final frame) -->
+        <div id="heroCtaContainer" class="absolute bottom-8 sm:bottom-12 md:bottom-20 left-1/2 -translate-x-1/2 z-30 transition-all duration-700 opacity-0 pointer-events-none transform translate-y-4">
+            <a 
+                href="#collections" 
+                id="heroExploreBtn"
+                class="inline-flex items-center gap-2.5 px-7 py-3 md:px-10 md:py-4 bg-[#8D3A3A] hover:bg-[#6E2C2C] active:scale-95 text-white font-medium tracking-[0.2em] uppercase text-xs md:text-sm rounded-sm shadow-[0_10px_35px_rgba(141,58,58,0.7)] hover:shadow-[0_15px_45px_rgba(141,58,58,0.95)] border border-amber-200/40 transition-all duration-300 group cursor-pointer"
+            >
+                <span>Explore Collection</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"></i>
+            </a>
+        </div>
 
         <!-- Interactive Hotspot: Clicking anywhere on the Hero Video smoothly navigates to Collections -->
         <a href="#collections" class="absolute inset-0 z-20 cursor-pointer" aria-label="Explore Collection">
@@ -2880,29 +2891,59 @@
             }
         }
 
-        // Ensure Hero Video Autoplays on all Mobile & Desktop browsers
+        // Hero Video Controller: Freeze at final frame & activate Explore Collection button
         (function() {
             const vid = document.getElementById('heroVideo');
-            if (vid) {
-                vid.muted = true;
-                const tryPlay = function() {
-                    const p = vid.play();
-                    if (p !== undefined) {
-                        p.catch(function() {
-                            const onUserInteract = function() {
-                                vid.play();
-                                document.removeEventListener('touchstart', onUserInteract);
-                                document.removeEventListener('click', onUserInteract);
-                                document.removeEventListener('scroll', onUserInteract);
-                            };
-                            document.addEventListener('touchstart', onUserInteract, { once: true, passive: true });
-                            document.addEventListener('click', onUserInteract, { once: true, passive: true });
-                            document.addEventListener('scroll', onUserInteract, { once: true, passive: true });
-                        });
+            const ctaContainer = document.getElementById('heroCtaContainer');
+            if (!vid) return;
+
+            vid.muted = true;
+
+            function enableExploreButton() {
+                if (ctaContainer && ctaContainer.classList.contains('opacity-0')) {
+                    ctaContainer.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                    ctaContainer.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+                    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                        window.lucide.createIcons();
                     }
-                };
-                tryPlay();
+                }
             }
+
+            // Pause exactly on final frame (do not loop back)
+            vid.addEventListener('ended', function() {
+                vid.pause();
+                enableExploreButton();
+            });
+
+            // Listen for timeupdate when brand name and button appear
+            vid.addEventListener('timeupdate', function() {
+                if (vid.duration && (vid.currentTime >= vid.duration - 1.8 || vid.currentTime >= 7.8)) {
+                    enableExploreButton();
+                }
+                // Lock on final frame
+                if (vid.duration && vid.currentTime >= vid.duration - 0.12) {
+                    vid.pause();
+                }
+            });
+
+            // Autoplay with touch/click fallback
+            const tryPlay = function() {
+                const p = vid.play();
+                if (p !== undefined) {
+                    p.catch(function() {
+                        const onUserInteract = function() {
+                            vid.play();
+                            document.removeEventListener('touchstart', onUserInteract);
+                            document.removeEventListener('click', onUserInteract);
+                            document.removeEventListener('scroll', onUserInteract);
+                        };
+                        document.addEventListener('touchstart', onUserInteract, { once: true, passive: true });
+                        document.addEventListener('click', onUserInteract, { once: true, passive: true });
+                        document.addEventListener('scroll', onUserInteract, { once: true, passive: true });
+                    });
+                }
+            };
+            tryPlay();
         })();
 
     </script>
