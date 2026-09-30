@@ -92,6 +92,27 @@
             scroll-behavior: smooth;
         }
 
+        /* Mobile Hero Section: 100% full uncropped video framing */
+        @media (max-width: 767px) {
+            #home {
+                margin-top: 5rem !important; /* Clears fixed 80px navbar completely */
+                width: 100% !important;
+                aspect-ratio: 16 / 9 !important;
+                height: auto !important;
+                min-height: unset !important;
+                max-height: unset !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                background-color: #050505 !important;
+            }
+            #home video {
+                object-fit: contain !important;
+                object-position: center center !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -835,7 +856,7 @@
     </div>
 
     <!-- HERO SECTION (CINEMATIC REALISTIC VIDEO BANNER) -->
-    <section id="home" class="relative w-full aspect-video sm:aspect-auto sm:h-screen min-h-[380px] flex items-center justify-center overflow-hidden bg-[#050505] pt-16 md:pt-20">
+    <section id="home" class="relative w-full aspect-video md:aspect-auto md:h-screen flex items-center justify-center overflow-hidden bg-[#050505] md:pt-20">
         <!-- Ultra Realistic Video Player with Hardware-Accelerated Sharpness -->
         <video 
             id="heroVideo"
@@ -845,7 +866,7 @@
             webkit-playsinline
             preload="auto"
             poster="public/hero_bg.jpg" 
-            class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+            class="absolute inset-0 w-full h-full object-contain md:object-cover object-center pointer-events-none"
             style="filter: contrast(1.08) saturate(1.12) brightness(1.03); -webkit-filter: contrast(1.08) saturate(1.12) brightness(1.03); image-rendering: -webkit-optimize-contrast; transform: translate3d(0, 0, 0); will-change: transform;"
         >
             <source src="public/hero_video.mp4" type="video/mp4">
@@ -861,14 +882,14 @@
 
         <!-- Main Hero Text Overlay & Single Explore Collection CTA (Appears when video finishes) -->
         <div id="heroTextOverlay" class="relative z-20 text-center px-4 max-w-4xl mx-auto transition-all duration-1000 opacity-0 pointer-events-none transform translate-y-6">
-            <p class="text-xs md:text-sm uppercase tracking-[0.3em] text-amber-200 font-semibold mb-3 drop-shadow-md">Welcome to</p>
+            <p class="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.25em] text-amber-200 font-semibold mb-1 sm:mb-2 md:mb-3 drop-shadow-md">Welcome to</p>
             
             <!-- Animated Brand Name -->
-            <h1 class="shree-animate font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-4 sm:mb-6 tracking-tight drop-shadow-2xl">
+            <h1 class="shree-animate font-serif text-3xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-1.5 sm:mb-4 md:mb-6 tracking-tight drop-shadow-2xl">
                 <span>S</span><span>H</span><span>R</span><span>E</span><span>E</span>
             </h1>
             
-            <p class="text-sm sm:text-lg md:text-xl text-stone-100 font-light mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+            <p class="text-[11px] sm:text-base md:text-xl text-stone-100 font-light mb-3 sm:mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md line-clamp-2 sm:line-clamp-none">
                 Where timeless tradition seamlessly weaves into modern elegance. Discover our curated collection of artisanal masterpieces.
             </p>
             
@@ -876,10 +897,10 @@
                 <a 
                     href="#collections" 
                     id="heroExploreBtn"
-                    class="inline-flex items-center gap-2.5 px-8 py-3.5 sm:px-10 sm:py-4 bg-[#8D3A3A] hover:bg-[#6E2C2C] active:scale-95 text-white font-medium tracking-[0.18em] uppercase text-xs sm:text-sm rounded-sm shadow-[0_10px_35px_rgba(141,58,58,0.7)] hover:shadow-[0_15px_45px_rgba(141,58,58,0.95)] border border-amber-200/30 transition-all duration-300 group cursor-pointer"
+                    class="inline-flex items-center gap-2 px-6 py-2.5 sm:px-10 sm:py-4 bg-[#8D3A3A] hover:bg-[#6E2C2C] active:scale-95 text-white font-medium tracking-[0.18em] uppercase text-[10px] sm:text-sm rounded-sm shadow-[0_10px_35px_rgba(141,58,58,0.7)] hover:shadow-[0_15px_45px_rgba(141,58,58,0.95)] border border-amber-200/30 transition-all duration-300 group cursor-pointer"
                 >
                     <span>Explore Collection</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"></i>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 sm:w-4 sm:h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"></i>
                 </a>
             </div>
         </div>
